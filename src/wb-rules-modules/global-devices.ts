@@ -5,6 +5,7 @@ import { MTDX62MB } from '#wbm/classes/mtdx62-mb'
 import { AstroTimerCls } from '#wbm/classes/other'
 import { AxProSensor, AxProArea } from '#wbm/classes/ax-pro'
 import { DLC02 } from '#wbm/classes/dlc-02'
+import { WBDALI } from '#wbm/classes/wb-dali'
 
 export const CPUs: Record<string, string> = {
   CPU: 'hwmon/CPU Temperature',
@@ -105,6 +106,9 @@ export const AstroTimer = new AstroTimerCls('AstroTimer')
 
 // DLC-02
 export const dlc02 = new DLC02('192.168.1.81')
+
+// WB-DALI
+export const WbDali = new WBDALI('wb-dali_22')
 
 // Датчики AxPro
 export const AxProSensors: Record<string, AxProSensor> = {
