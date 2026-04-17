@@ -1,4 +1,4 @@
-import { PresenceSensors, RelayLights } from '#wbm/global-devices'
+import { PresenceSensors } from '#wbm/global-devices'
 import { makeBacklightRule } from '#wbm/rule_makers/backlight'
 import { WbDali } from '#wbm/global-devices'
 
@@ -15,7 +15,8 @@ const offFunc = (): void => {
 }
 
 const valueFunc = (): boolean => {
-  return RelayLights.Cabinet_01.isOn()
+  // return RelayLights.Cabinet_01.isOn()
+  return false
 }
 
 makeBacklightRule(
