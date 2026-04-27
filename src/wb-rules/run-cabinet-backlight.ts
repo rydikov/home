@@ -11,7 +11,8 @@ const onFunc = (): void => {
 const offFunc = (): void => {
   // RelayLights.Cabinet_01.off()
   // dlc02.offGroup('01', 0)
-  WbDali.offGroup(3, '01')
+  // WbDali.offGroup(3, '00')
+  WbDali.runScene(3, 15)
 }
 
 const valueFunc = (): boolean => {
