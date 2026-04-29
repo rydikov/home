@@ -112,8 +112,14 @@ defineVirtualDevice('dali_groups', {
 defineRule('DALI_GROUP_SET_BRIGHTNESS', {
   whenChanged: 'dali_groups/brightness',
   then: function (newValue: number) {
-    const groupAddress = Number(getDevice('dali_groups')?.getControl('group_id').getValue())
-    const bussID = String(getDevice('dali_groups')?.getControl('buss_id').getValue())
+    const daliGroupsDevice = getDevice('dali_groups')
+
+    if (daliGroupsDevice === undefined) {
+      return
+    }
+
+    const groupAddress = Number(daliGroupsDevice.getControl('group_id')?.getValue())
+    const bussID = String(daliGroupsDevice.getControl('buss_id')?.getValue())
 
     dlc02.setBrightness(bussID, getGroupAddress(groupAddress), newValue)
   },
@@ -122,8 +128,14 @@ defineRule('DALI_GROUP_SET_BRIGHTNESS', {
 defineRule('DALI_GROUP_SET_COLOR_TEMPERATURE', {
   whenChanged: 'dali_groups/color_temperature',
   then: function (newValue: number) {
-    const groupAddress = Number(getDevice('dali_groups')?.getControl('group_id').getValue())
-    const bussID = String(getDevice('dali_groups')?.getControl('buss_id').getValue())
+    const daliGroupsDevice = getDevice('dali_groups')
+
+    if (daliGroupsDevice === undefined) {
+      return
+    }
+
+    const groupAddress = Number(daliGroupsDevice.getControl('group_id')?.getValue())
+    const bussID = String(daliGroupsDevice.getControl('buss_id')?.getValue())
 
     dlc02.setColorTemperature(bussID, getGroupAddress(groupAddress), newValue)
   },
@@ -132,10 +144,10 @@ defineRule('DALI_GROUP_SET_COLOR_TEMPERATURE', {
 defineRule('CHECK_DALI_LAMP', {
   whenChanged: 'dali_groups/update',
   then: function () {
-    const lampAddress = getDevice('dali_groups')?.getControl('device_id').getValue()
+    const lampAddress = getDevice('dali_groups')?.getControl('device_id')?.getValue()
     const deviceLampAddress = getDeviceAddress(Number(lampAddress))
 
-    const bussID = String(getDevice('dali_groups')?.getControl('buss_id').getValue())
+    const bussID = String(getDevice('dali_groups')?.getControl('buss_id')?.getValue())
 
     log.info('get-ct request for lamp {} on buss {}'.format(deviceLampAddress, bussID))
     dlc02.sendColorTemperatureRequest(bussID, deviceLampAddress)
@@ -145,53 +157,53 @@ defineRule('CHECK_DALI_LAMP', {
     dlc02.sendStatusRequest(bussID, deviceLampAddress)
 
     const now = new Date()
-    getDevice('dali_groups')?.getControl('updated').setValue(formatTimestampES5(now.getTime()))
+    getDevice('dali_groups')?.getControl('updated')?.setValue(formatTimestampES5(now.getTime()))
   },
 })
 
 // Подписчики на изменения в RPC
 //
 // Обновляем цветовую температуру
-trackMqtt('/rpc/v1/wb-mqtt-serial/port/Load/ct-request/reply', (message: { topic: string, value: string }) => {
+trackMqtt('/rpc/v1/wb-mqtt-serial/port/Load/ct-request/reply', (message) => {
   let controlValue = ''
   try {
-    const frame = getReplyFrame('ct-request', message.value)
+    const frame = getReplyFrame('ct-request', String(message.value))
     controlValue = parseColourTemperature(frame[4], frame[5])
   }
   catch (error) {
     controlValue = error instanceof Error ? error.message : String(error)
   }
   finally {
-    getDevice('dali_groups')?.getControl('color_temperature_updated').setValue(controlValue)
+    getDevice('dali_groups')?.getControl('color_temperature_updated')?.setValue(controlValue)
   }
 })
 
 // Обновляем яркость
-trackMqtt('/rpc/v1/wb-mqtt-serial/port/Load/brightness-request/reply', (message: { topic: string, value: string }) => {
+trackMqtt('/rpc/v1/wb-mqtt-serial/port/Load/brightness-request/reply', (message) => {
   let controlValue = ''
   try {
-    const frame = getReplyFrame('brightness-request', message.value)
+    const frame = getReplyFrame('brightness-request', String(message.value))
     controlValue = parseBrightness(frame[4])
   }
   catch (error) {
     controlValue = error instanceof Error ? error.message : String(error)
   }
   finally {
-    getDevice('dali_groups')?.getControl('brightness_updated').setValue(controlValue)
+    getDevice('dali_groups')?.getControl('brightness_updated')?.setValue(controlValue)
   }
 })
 
 // Обновляем статус
-trackMqtt('/rpc/v1/wb-mqtt-serial/port/Load/status-request/reply', (message: { topic: string, value: string }) => {
+trackMqtt('/rpc/v1/wb-mqtt-serial/port/Load/status-request/reply', (message) => {
   let controlValue = ''
   try {
-    const frame = getReplyFrame('status-request', message.value)
+    const frame = getReplyFrame('status-request', String(message.value))
     controlValue = parseStatus(frame[4])
   }
   catch (error) {
     controlValue = error instanceof Error ? error.message : String(error)
   }
   finally {
-    getDevice('dali_groups')?.getControl('status_updated').setValue(controlValue)
+    getDevice('dali_groups')?.getControl('status_updated')?.setValue(controlValue)
   }
 })

@@ -4,7 +4,6 @@ import globalsMirta from '@mirta/globals/eslint'
 import tseslint from 'typescript-eslint'
 import stylistic from '@stylistic/eslint-plugin'
 import vitest from '@vitest/eslint-plugin'
-
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
@@ -78,6 +77,7 @@ export default defineConfig([
       quotes: 'single',
       quoteProps: 'consistent',
       indent: 2,
+      semi: false,
     }),
   },
   // Stylistic Overrides
@@ -97,10 +97,9 @@ export default defineConfig([
       }],
     },
   },
-
   // Vitest Defaults
   {
-    files: ['packages/*/tests/**', 'projects/*/tests/**'],
+    files: ['tests/**'],
     plugins: {
       vitest,
     },
@@ -113,7 +112,6 @@ export default defineConfig([
       },
     },
   },
-
   globalIgnores([
     'node_modules/',
     'dist/',

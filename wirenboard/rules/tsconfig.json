@@ -1,13 +1,13 @@
 {
-  "extends": "@mirta/tsconfig",
   "compilerOptions": {
-    "rootDir": ".",
     "types": [
       "vitest/globals",
       "@mirta/globals",
       "node"
-    ]
+    ],
+    "rootDir": "."
   },
+  "extends": "@mirta/tsconfig",
   "include": [
     "*.ts",
     "src/**/*.js",

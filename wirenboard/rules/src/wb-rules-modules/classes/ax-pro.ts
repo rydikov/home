@@ -17,11 +17,11 @@ export class AxProSensor extends DeviceBasedClass {
   }
 
   get lastSeenTimestamp(): number {
-    return Number(this.device?.getControl('last_seen_timestamp').getValue())
+    return Number(this.device?.getControl('last_seen_timestamp')?.getValue())
   }
 
   get status(): string {
-    return String(this.device?.getControl('last_seen_timestamp').getValue())
+    return String(this.device?.getControl('last_seen_timestamp')?.getValue())
   }
 
   get humidityTopic(): string {
@@ -30,7 +30,7 @@ export class AxProSensor extends DeviceBasedClass {
 
   get humidity(): number {
     if (this.has_humidity) {
-      return Number(this.device?.getControl('humidity').getValue())
+      return Number(this.device?.getControl('humidity')?.getValue())
     }
     else {
       return 0
@@ -42,12 +42,12 @@ export class AxProSensor extends DeviceBasedClass {
   }
 
   get temperature(): number {
-    return Number(this.device?.getControl('temperature').getValue())
+    return Number(this.device?.getControl('temperature')?.getValue())
   }
 
   setIsUpdated(isUpdated: boolean) {
     log.debug('AxPro sensor: {} isUpdated {}'.format(JSON.stringify(this.device), isUpdated))
-    this.device?.getControl('is_updated').setValue(isUpdated)
+    this.device?.getControl('is_updated')?.setValue(isUpdated)
   }
 
   setError(errMsg: string) {

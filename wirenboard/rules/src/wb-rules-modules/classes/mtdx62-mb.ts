@@ -8,7 +8,7 @@ export class MTDX62MB extends DeviceBasedClass {
   }
 
   get presenceStatus(): boolean {
-    return Boolean(this.device?.getControl('presence_status').getValue())
+    return Boolean(this.device?.getControl('presence_status')?.getValue())
   }
 
   get illuminanceTopic(): string {
@@ -16,7 +16,7 @@ export class MTDX62MB extends DeviceBasedClass {
   }
 
   get illuminance(): number {
-    return Number(this.device?.getControl('illuminance').getValue())
+    return Number(this.device?.getControl('illuminance')?.getValue())
   }
 
   get targetDistanceTopic(): string {
@@ -24,7 +24,7 @@ export class MTDX62MB extends DeviceBasedClass {
   }
 
   get targetDistance(): number {
-    return Number(this.device?.getControl('target_distance').getValue())
+    return Number(this.device?.getControl('target_distance')?.getValue())
   }
 
 }

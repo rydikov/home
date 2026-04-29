@@ -49,10 +49,10 @@ defineRule('OUT_LIGHTS_SWITCH', {
     const device = getDevice('AstroTimer')
 
     if (device !== undefined) {
-      device.getControl('now').setValue(formatTimestampES5(now.getTime()))
-      device.getControl('sunrise').setValue(formatTimestampES5(sunrise.getTime()))
-      device.getControl('sunset').setValue(formatTimestampES5(sunset.getTime()))
-      device.getControl('is_day').setValue(is_day)
+      device.getControl('now')?.setValue(formatTimestampES5(now.getTime()))
+      device.getControl('sunrise')?.setValue(formatTimestampES5(sunrise.getTime()))
+      device.getControl('sunset')?.setValue(formatTimestampES5(sunset.getTime()))
+      device.getControl('is_day')?.setValue(is_day)
     }
   },
 })

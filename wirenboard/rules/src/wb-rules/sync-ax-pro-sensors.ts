@@ -68,8 +68,8 @@ interface SensorMessage {
 }
 
 // Sync with virtual device
-trackMqtt('ax-pro/sensors/#', (message: { topic: string, value: string }) => {
-  const value = JSON.parse(message.value) as SensorMessage
+trackMqtt('ax-pro/sensors/#', (message) => {
+  const value = JSON.parse(String(message.value)) as SensorMessage
 
   const parts = message.topic.split('/')
   const sensorId = parts[2] // sensor_id
@@ -78,15 +78,15 @@ trackMqtt('ax-pro/sensors/#', (message: { topic: string, value: string }) => {
   const device = getDevice(devName)
 
   if (device !== undefined) {
-    device.getControl('temperature').setValue(value.temperature)
-    device.getControl('charge_value').setValue('chargeValue' in value ? value.chargeValue : 0)
-    device.getControl('status').setValue(value.status)
-    device.getControl('is_updated').setValue(true)
-    device.getControl('last_seen_timestamp').setValue(value.last_seen)
-    device.getControl('last_seen').setValue(formatTimestampES5(value.last_seen * 1000)) // s to ms
+    device.getControl('temperature')?.setValue(value.temperature)
+    device.getControl('charge_value')?.setValue('chargeValue' in value ? value.chargeValue : 0)
+    device.getControl('status')?.setValue(value.status)
+    device.getControl('is_updated')?.setValue(true)
+    device.getControl('last_seen_timestamp')?.setValue(value.last_seen)
+    device.getControl('last_seen')?.setValue(formatTimestampES5(value.last_seen * 1000)) // s to ms
 
     if (device.isControlExists('humidity')) {
-      device.getControl('humidity').setValue('humidity' in value ? value.humidity : 0)
+      device.getControl('humidity')?.setValue('humidity' in value ? value.humidity : 0)
     };
   }
 })

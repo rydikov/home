@@ -8,7 +8,7 @@ export class AqaraSensor extends DeviceBasedClass {
   }
 
   get lastSeen(): number {
-    return Number(this.device?.getControl('last_seen').getValue())
+    return Number(this.device?.getControl('last_seen')?.getValue())
   }
 
   get humidityTopic(): string {
@@ -16,7 +16,7 @@ export class AqaraSensor extends DeviceBasedClass {
   }
 
   get humidity(): number {
-    return Number(this.device?.getControl('humidity').getValue())
+    return Number(this.device?.getControl('humidity')?.getValue())
   }
 
   get temperatureTopic(): string {
@@ -24,7 +24,7 @@ export class AqaraSensor extends DeviceBasedClass {
   }
 
   get temperature(): number {
-    return Number(this.device?.getControl('temperature').getValue())
+    return Number(this.device?.getControl('temperature')?.getValue())
   }
 
   setError(errMsg: string) {

@@ -68,7 +68,7 @@ export class MSW extends DeviceBasedClass {
   }
 
   get temperature(): number {
-    return Number(this.device?.getControl('Temperature').getValue())
+    return Number(this.device?.getControl('Temperature')?.getValue())
   }
 
   get humidityTopic(): string {
@@ -76,7 +76,7 @@ export class MSW extends DeviceBasedClass {
   }
 
   get humidity(): number {
-    return Number(this.device?.getControl('Humidity').getValue())
+    return Number(this.device?.getControl('Humidity')?.getValue())
   }
 
   get co2Topic(): string {
@@ -84,7 +84,7 @@ export class MSW extends DeviceBasedClass {
   }
 
   get co2(): number {
-    return Number(this.device?.getControl('CO2').getValue())
+    return Number(this.device?.getControl('CO2')?.getValue())
   }
 
   get airQualityVocTopic(): string {
@@ -92,7 +92,7 @@ export class MSW extends DeviceBasedClass {
   }
 
   get airQualityVoc(): number {
-    return Number(this.device?.getControl('Air Quality (VOC)').getValue())
+    return Number(this.device?.getControl('Air Quality (VOC)')?.getValue())
   }
 
   get soundLevelTopic(): string {
@@ -100,7 +100,7 @@ export class MSW extends DeviceBasedClass {
   }
 
   get soundLevel(): number {
-    return Number(this.device?.getControl('Sound Level').getValue())
+    return Number(this.device?.getControl('Sound Level')?.getValue())
   }
 
   get illuminanceTopic(): string {
@@ -108,7 +108,7 @@ export class MSW extends DeviceBasedClass {
   }
 
   get illuminance(): number {
-    return Number(this.device?.getControl('Illuminance').getValue())
+    return Number(this.device?.getControl('Illuminance')?.getValue())
   }
 
   get maxMotionTopic(): string {
@@ -116,7 +116,7 @@ export class MSW extends DeviceBasedClass {
   }
 
   get maxMotion(): number {
-    return Number(this.device?.getControl('Max Motion').getValue())
+    return Number(this.device?.getControl('Max Motion')?.getValue())
   }
 
   get currentMotionTopic(): string {
@@ -124,7 +124,7 @@ export class MSW extends DeviceBasedClass {
   }
 
   get currentMotion(): number {
-    return Number(this.device?.getControl('Current Motion').getValue())
+    return Number(this.device?.getControl('Current Motion')?.getValue())
   }
 
 }

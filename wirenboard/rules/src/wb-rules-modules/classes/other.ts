@@ -8,7 +8,7 @@ export class AstroTimerCls extends DeviceBasedClass {
   }
 
   get isDay(): boolean {
-    return Boolean(this.device?.getControl('is_day').getValue())
+    return Boolean(this.device?.getControl('is_day')?.getValue())
   }
 
 }
