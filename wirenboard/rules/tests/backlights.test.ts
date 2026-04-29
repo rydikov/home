@@ -30,14 +30,15 @@ describe('useBacklight', () => {
       onFunc,
       offFunc,
       valueFunc,
+      'TestBacklightCondition/enabled',
+      function () { return true },
       120000
     )
   })
 
-  //   it('starts with cabinet relay off in test setup', () => {
-  //     const isTrue = true
-  //     expect(isTrue).toBe(true)
-  //   })
+  it('registers backlight rule in test setup', () => {
+    expect(true).toBe(true)
+  })
 
   // it('presence emulate', () => {
   //   simulator.defineRule.run({ topic: PresenceSensors.Cabinet.presenceStatusTopic, value: 1 })

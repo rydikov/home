@@ -51,10 +51,10 @@ interface PartitionMessage {
 }
 
 // Sync with virtual device
-trackMqtt('ax-pro/partitions/#', (message: { topic: string, value: string }) => {
+trackMqtt('ax-pro/partitions/#', (message) => {
   log.debug('name: {}, value: {}'.format(message.topic, message.value))
 
-  const value = JSON.parse(message.value) as PartitionMessage
+  const value = JSON.parse(String(message.value)) as PartitionMessage
 
   const state = ciaToState[value.cia_code]
   const partition = partitionsWithDevices[value.group_or_partition_number]

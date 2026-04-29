@@ -1,6 +1,5 @@
-import { PresenceSensors } from '#wbm/global-devices'
+import { AstroTimer, PresenceSensors, WbDali } from '#wbm/global-devices'
 import { makeBacklightRule } from '#wbm/rule_makers/backlight'
-import { WbDali } from '#wbm/global-devices'
 
 const onFunc = (): void => {
   // RelayLights.Cabinet_01.on()
@@ -20,6 +19,10 @@ const valueFunc = (): boolean => {
   return false
 }
 
+const shouldTurnOnBacklightFunc = (): boolean => {
+  return !AstroTimer.isDay
+}
+
 makeBacklightRule(
   'CABINET_BACKLIGHT',
   PresenceSensors.Cabinet,
@@ -27,5 +30,7 @@ makeBacklightRule(
   onFunc,
   offFunc,
   valueFunc,
+  AstroTimer.isDayTopic,
+  shouldTurnOnBacklightFunc,
   120000
 )

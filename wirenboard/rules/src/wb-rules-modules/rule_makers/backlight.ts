@@ -1,9 +1,9 @@
-import { AstroTimer } from '#wbm/global-devices'
 import { MTDX62MB } from '#wbm/classes/mtdx62-mb'
 
 type onFuncType = () => void
 type offFuncType = () => void
 type valueFuncType = () => boolean
+type shouldTurnOnBacklightFuncType = () => boolean
 
 export function makeBacklightRule(
   ruleName: string,
@@ -12,6 +12,8 @@ export function makeBacklightRule(
   backlightOnFunc: onFuncType,
   backlightOffFunc: offFuncType,
   backlightValueFunc: valueFuncType,
+  conditionTopic: string,
+  shouldTurnOnBacklightFunc: shouldTurnOnBacklightFuncType,
   timeoutMs = 120000,
   doorSensorTopic?: string
 ) {
@@ -28,7 +30,7 @@ export function makeBacklightRule(
   const whenChanged = [
     presenceDevice.presenceStatusTopic,
     backlightControl,
-    AstroTimer.isDayTopic,
+    conditionTopic,
   ]
   if (doorSensorTopic) {
     whenChanged.push(doorSensorTopic)
@@ -36,36 +38,36 @@ export function makeBacklightRule(
 
   defineRule(ruleName, {
     whenChanged,
-    then: function (newValue, devName) {
-      const isNight = !AstroTimer.isDay
+    then: function (newValue, devName, cellName) {
+      const shouldTurnOnBacklight = shouldTurnOnBacklightFunc()
       const isBacklightEnabled = Boolean(getControl(backlightControl)?.getValue())
       const isBacklightOn = backlightValueFunc()
 
       // Проверяем, событие ли это движения
-      const isMotionEvent = devName === presenceDevice.name
+      const isMotionEvent = cellName === presenceDevice.presenceStatusTopic
       // Проверяем, событие ли это от геркона
       const isDoorEvent = doorSensorTopic && devName === doorSensorTopic
 
-      log.info('Подсветка: движение={}, дверь={}, подсветка включена={}, ночь={}, состояние освещения={}',
-        isMotionEvent, isDoorEvent, isBacklightEnabled, isNight, isBacklightOn)
+      log.info('Подсветка: движение={}, дверь={}, подсветка включена={}, условие включения={}, состояние освещения={}',
+        isMotionEvent, isDoorEvent, isBacklightEnabled, shouldTurnOnBacklight, isBacklightOn)
       log.info('Новое значение: {} от устройства: {}', newValue, devName)
 
-      // Обработка изменения условий (ручное включение подсветки или день/ночь)
+      // Обработка изменения условий (ручное включение подсветки или абстрактное условие включения)
       if (!isMotionEvent && !isDoorEvent) {
         resetMotionTimer()
-        // Выключаем свет, если подсветка отключена или сейчас день
-        if ((!isBacklightEnabled || !isNight) && isBacklightOn) {
+        // Выключаем свет, если подсветка отключена или условие включения больше не выполняется
+        if ((!isBacklightEnabled || !shouldTurnOnBacklight) && isBacklightOn) {
           backlightOffFunc()
           log.info('Подсветка выключена')
         }
       }
 
-      // Если подсветка отключена или сейчас день, ничего не делаем
-      if (!isBacklightEnabled || !isNight) {
+      // Если подсветка отключена или условие включения не выполняется, ничего не делаем
+      if (!isBacklightEnabled || !shouldTurnOnBacklight) {
         return
       }
 
-      // Явно определяем состояние датчика присутствия - newValue может быть от датчика, Backlights или AstroTimer
+      // Явно определяем состояние датчика присутствия - newValue может быть от датчика, Backlights или conditionTopic
       const presenceStatus = isMotionEvent ? newValue : presenceDevice.presenceStatus
 
       if (presenceStatus || isDoorEvent) {
