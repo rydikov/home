@@ -22,7 +22,7 @@ defineRule('Scene_Control', {
     }
     if (cellName == 'movie_night') {
       log.debug('Сцена Киновечер активирована')
-      WbDali.offGroup(3, '01')
+      WbDali.offGroup(3, '00')
     }
     if (cellName == 'morning_routine') {
       log.debug('Сцена Утро активирована')
