@@ -7,6 +7,11 @@ import { AxProSensor, AxProArea } from '#wbm/classes/ax-pro'
 import { DLC02 } from '#wbm/classes/dlc-02'
 import { WBDALI } from '#wbm/classes/wb-dali'
 
+export const Location = readConfig('/mnt/data/supervisor/wb-rules-conf/location.conf') as {
+  latitude: number
+  longitude: number
+}
+
 export const CPUs: Record<string, string> = {
   CPU: 'hwmon/CPU Temperature',
 }

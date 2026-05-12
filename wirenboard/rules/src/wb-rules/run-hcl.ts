@@ -1,5 +1,5 @@
 import { SunCalc } from '#wbm/suncalc'
-import { WbDali } from '#wbm/global-devices'
+import { Location, WbDali } from '#wbm/global-devices'
 
 // Глобальная переменная для хранения предыдущей температуры
 let prevTempK = 3500 // начальное значение (нейтральный свет)
@@ -57,14 +57,10 @@ function calculateHCLTemperature(lat: number, lon: number, smoothFactor: number,
   return Math.max(2200, Math.min(6500, prevTempK))
 }
 
-// Настройки
-const latitude = 53.11
-const longitude = 45.05
-
 defineRule('HCL_DALI_GROUP_00_TEMPERATURE', {
   when: cron('@every 300s'),
   then: function () {
-    const colorTempK = calculateHCLTemperature(latitude, longitude, 0.15, 10)
+    const colorTempK = calculateHCLTemperature(Location.latitude, Location.longitude, 0.15, 10)
     log.debug('Set HCL Temperature: {} K'.format(colorTempK))
     WbDali.setColourTemperature(3, '00', colorTempK)
   },
