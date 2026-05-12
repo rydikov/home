@@ -1,15 +1,19 @@
 import { SunCalc } from '#wbm/suncalc'
 import { Location, WbDali } from '#wbm/global-devices'
 
-// Глобальная переменная для хранения предыдущей температуры
-let prevTempK = 3500 // начальное значение (нейтральный свет)
+// Глобальная переменная для хранения предыдущей температуры.
+// До первого расчёта значение не задано, чтобы при старте/перезапуске правила
+// сразу выставить текущую целевую температуру без сглаживания от фиксированного значения.
+let prevTempK: number | undefined
 
-// Расчёт цветовой температуры (K) для HCL с плавной регулировкой
-// latitude - широта
-// longitude - долгота
-// smoothFactor – коэффициент плавности (чем меньше, тем плавнее)
-// precision – шаг округления в Кельвинах (например, 10 для кратных 10)
-
+// calculateHCLTemperature(lat, lon, smoothFactor, precision): number
+// Расчёт цветовой температуры (K) для HCL с плавной регулировкой.
+// lat - широта.
+// lon - долгота.
+// smoothFactor - коэффициент плавности (чем меньше, тем плавнее).
+// precision - шаг округления в Кельвинах (например, 10 для кратных 10).
+// Первый расчёт после старта выполняется без сглаживания, последующие расчёты
+// плавно двигаются от предыдущей температуры к текущей целевой температуре.
 function calculateHCLTemperature(lat: number, lon: number, smoothFactor: number, precision: number): number {
   const now = new Date()
   const position = SunCalc.getPosition(now, lat, lon)
@@ -44,8 +48,13 @@ function calculateHCLTemperature(lat: number, lon: number, smoothFactor: number,
     targetTemp = 6500 // полдень и выше
   }
 
-  // Плавный переход: взвешенное среднее между текущей и целевой температурой
-  const newTemp = prevTempK * (1 - smoothFactor) + targetTemp * smoothFactor
+  log.debug('HCL target temperature: {} K'.format(Math.round(targetTemp / precision) * precision))
+
+  const newTemp = prevTempK === undefined
+    ? targetTemp
+    // Плавный переход: взвешенное среднее между текущей и целевой температурой
+    // чтобы не было заметного глазу скачка, и желательно не ставить время синхронизации больше 5 минут
+    : prevTempK * (1 - smoothFactor) + targetTemp * smoothFactor
 
   // Обновляем предыдущее значение
   prevTempK = Math.round(newTemp)
