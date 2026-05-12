@@ -12,11 +12,18 @@ export class WBDALI extends DeviceBasedClass {
     }
   }
 
-  offGroup(bus: number, groupNumber: string): void {
-    const groupControlTopic = '{}_bus_{}_group_{}/off'.format(this.name, bus, groupNumber)
+  offGroup(bus: number, groupAddress: string): void {
+    const groupControlTopic = '{}_bus_{}_group_{}/off'.format(this.name, bus, groupAddress)
     log.debug(groupControlTopic)
     const groupControl = getControl(groupControlTopic)
     groupControl?.setValue(false)
+  }
+
+  setColourTemperature(bus: number, groupAddress: string, colourTemperature: number): void {
+    const groupControlTopic = '{}_bus_{}_group_{}/set_colour_temperature'.format(this.name, bus, groupAddress)
+    log.debug(groupControlTopic)
+    const groupControl = getControl(groupControlTopic)
+    groupControl?.setValue(colourTemperature)
   }
 
 }
