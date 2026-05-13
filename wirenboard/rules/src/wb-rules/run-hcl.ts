@@ -1,10 +1,40 @@
 import { SunCalc } from '#wbm/suncalc'
 import { Location, WbDali } from '#wbm/global-devices'
 
+const NIGHT_TEMP_K = 2700
+const SUNRISE_SUNSET_TEMP_K = 3500
+const MIDDAY_TEMP_K = 6500
+
 // Глобальная переменная для хранения предыдущей температуры.
 // До первого расчёта значение не задано, чтобы при старте/перезапуске правила
 // сразу выставить текущую целевую температуру без сглаживания от фиксированного значения.
 let prevTempK: number | undefined
+
+// calculateHCLTargetTemperature(altitudeDeg): number
+// Расчёт целевой цветовой температуры (K) по углу высоты Солнца.
+function calculateHCLTargetTemperature(altitudeDeg: number): number {
+  // Границы углов
+  const dawnDuskAngle = -6 // начало рассвета/заката
+  const sunriseSunsetAngle = 0 // горизонт
+  const middayAngle = 60 // максимум угла (полдень)
+
+  // Логика расчёта целевой температуры
+  if (altitudeDeg < dawnDuskAngle) {
+    return NIGHT_TEMP_K // ночь
+  }
+  else if (altitudeDeg < sunriseSunsetAngle) {
+    // рассвет/закат: 2700 → 3500 K
+    return NIGHT_TEMP_K + (SUNRISE_SUNSET_TEMP_K - NIGHT_TEMP_K)
+      * (altitudeDeg - dawnDuskAngle) / (sunriseSunsetAngle - dawnDuskAngle)
+  }
+  else if (altitudeDeg < middayAngle) {
+    // утро/день: 3500 → 6500 K
+    return SUNRISE_SUNSET_TEMP_K + (MIDDAY_TEMP_K - SUNRISE_SUNSET_TEMP_K)
+      * (altitudeDeg - sunriseSunsetAngle) / (middayAngle - sunriseSunsetAngle)
+  }
+
+  return MIDDAY_TEMP_K // полдень и выше
+}
 
 // calculateHCLTemperature(lat, lon, smoothFactor, precision): number
 // Расчёт цветовой температуры (K) для HCL с плавной регулировкой.
@@ -23,30 +53,7 @@ function calculateHCLTemperature(lat: number, lon: number, smoothFactor: number,
 
   log.debug('Угол Солнца: {} °'.format(altitudeDeg))
 
-  // Границы углов
-  const dawnDuskAngle = -6 // начало рассвета/заката
-  const sunriseSunsetAngle = 0 // горизонт
-  const middayAngle = 60 // максимум угла (полдень)
-
-  let targetTemp: number // целевая температура (без плавности)
-
-  // Логика расчёта целевой температуры
-  if (altitudeDeg < dawnDuskAngle) {
-    targetTemp = 2200 // ночь
-  }
-  else if (altitudeDeg < sunriseSunsetAngle) {
-    // рассвет/закат: 2200 → 3500 K
-    targetTemp = 2200 + (3500 - 2200)
-    * (altitudeDeg - dawnDuskAngle) / (sunriseSunsetAngle - dawnDuskAngle)
-  }
-  else if (altitudeDeg < middayAngle) {
-    // утро/день: 3500 → 6500 K
-    targetTemp = 3500 + (6500 - 3500)
-    * (altitudeDeg - sunriseSunsetAngle) / (middayAngle - sunriseSunsetAngle)
-  }
-  else {
-    targetTemp = 6500 // полдень и выше
-  }
+  const targetTemp = calculateHCLTargetTemperature(altitudeDeg)
 
   log.debug('HCL target temperature: {} K'.format(Math.round(targetTemp / precision) * precision))
 
@@ -63,7 +70,7 @@ function calculateHCLTemperature(lat: number, lon: number, smoothFactor: number,
   prevTempK = Math.round(prevTempK / precision) * precision
 
   // Ограничиваем диапазон
-  return Math.max(2200, Math.min(6500, prevTempK))
+  return Math.max(NIGHT_TEMP_K, Math.min(MIDDAY_TEMP_K, prevTempK))
 }
 
 defineRule('HCL_DALI_GROUP_00_TEMPERATURE', {
