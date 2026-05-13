@@ -1,82 +1,49 @@
 import { SunCalc } from '#wbm/suncalc'
 import { Location, WbDali } from '#wbm/global-devices'
 
-const NIGHT_TEMP_K = 2700
-const SUNRISE_SUNSET_TEMP_K = 3500
-const MIDDAY_TEMP_K = 6500
+const MIN_TEMP_K = 2000
+const MAX_TEMP_K = 6500
 
-// Глобальная переменная для хранения предыдущей температуры.
-// До первого расчёта значение не задано, чтобы при старте/перезапуске правила
-// сразу выставить текущую целевую температуру без сглаживания от фиксированного значения.
-let prevTempK: number | undefined
+const CIVIL_TWILIGHT_ANGLE = -6
+const MAX_SUN_ANGLE = 55
 
-// calculateHCLTargetTemperature(altitudeDeg): number
-// Расчёт целевой цветовой температуры (K) по углу высоты Солнца.
-function calculateHCLTargetTemperature(altitudeDeg: number): number {
-  // Границы углов
-  const dawnDuskAngle = -6 // начало рассвета/заката
-  const sunriseSunsetAngle = 0 // горизонт
-  const middayAngle = 60 // максимум угла (полдень)
-
-  // Логика расчёта целевой температуры
-  if (altitudeDeg < dawnDuskAngle) {
-    return NIGHT_TEMP_K // ночь
-  }
-  else if (altitudeDeg < sunriseSunsetAngle) {
-    // рассвет/закат: 2700 → 3500 K
-    return NIGHT_TEMP_K + (SUNRISE_SUNSET_TEMP_K - NIGHT_TEMP_K)
-      * (altitudeDeg - dawnDuskAngle) / (sunriseSunsetAngle - dawnDuskAngle)
-  }
-  else if (altitudeDeg < middayAngle) {
-    // утро/день: 3500 → 6500 K
-    return SUNRISE_SUNSET_TEMP_K + (MIDDAY_TEMP_K - SUNRISE_SUNSET_TEMP_K)
-      * (altitudeDeg - sunriseSunsetAngle) / (middayAngle - sunriseSunsetAngle)
-  }
-
-  return MIDDAY_TEMP_K // полдень и выше
+function smoothstep(x: number): number {
+  return x * x * (3 - 2 * x)
 }
 
-// calculateHCLTemperature(lat, lon, smoothFactor, precision): number
-// Расчёт цветовой температуры (K) для HCL с плавной регулировкой.
+// calculateHCLTemperature(lat, lon): number
+// Расчёт цветовой температуры (K) для HCL по углу высоты Солнца.
 // lat - широта.
 // lon - долгота.
-// smoothFactor - коэффициент плавности (чем меньше, тем плавнее).
-// precision - шаг округления в Кельвинах (например, 10 для кратных 10).
-// Первый расчёт после старта выполняется без сглаживания, последующие расчёты
-// плавно двигаются от предыдущей температуры к текущей целевой температуре.
-function calculateHCLTemperature(lat: number, lon: number, smoothFactor: number, precision: number): number {
+// Значение нормализуется между гражданскими сумерками и максимальным углом Солнца,
+// затем сглаживается S-кривой smoothstep.
+function calculateHCLTemperature(lat: number, lon: number): number {
   const now = new Date()
   const position = SunCalc.getPosition(now, lat, lon)
 
   // Угол высоты Солнца в градусах
-  const altitudeDeg = Math.round(position.altitude * (180 / Math.PI) * 100) / 100
+  const altitudeDeg = position.altitude * 180 / Math.PI
 
-  log.debug('Угол Солнца: {} °'.format(altitudeDeg))
+  log.debug('Угол Солнца: {} °'.format(Math.round(altitudeDeg * 100) / 100))
 
-  const targetTemp = calculateHCLTargetTemperature(altitudeDeg)
+  // Нормализуем угол Солнца в диапазон 0..1:
+  // 0 соответствует гражданским сумеркам и ниже, 1 соответствует максимальному углу Солнца и выше.
+  let normalized = (altitudeDeg - CIVIL_TWILIGHT_ANGLE) / (MAX_SUN_ANGLE - CIVIL_TWILIGHT_ANGLE)
 
-  log.debug('HCL target temperature: {} K'.format(Math.round(targetTemp / precision) * precision))
+  normalized = Math.max(0, Math.min(1, normalized))
 
-  const newTemp = prevTempK === undefined
-    ? targetTemp
-    // Плавный переход: взвешенное среднее между текущей и целевой температурой
-    // чтобы не было заметного глазу скачка, и желательно не ставить время синхронизации больше 5 минут
-    : prevTempK * (1 - smoothFactor) + targetTemp * smoothFactor
+  // Плавная S-кривая
+  normalized = smoothstep(normalized)
 
-  // Обновляем предыдущее значение
-  prevTempK = Math.round(newTemp)
-
-  // Округляем до ближайшего кратного precision
-  prevTempK = Math.round(prevTempK / precision) * precision
-
-  // Ограничиваем диапазон
-  return Math.max(NIGHT_TEMP_K, Math.min(MIDDAY_TEMP_K, prevTempK))
+  return Math.round(
+    MIN_TEMP_K + (MAX_TEMP_K - MIN_TEMP_K) * normalized
+  )
 }
 
 defineRule('HCL_DALI_GROUP_00_TEMPERATURE', {
   when: cron('@every 300s'),
   then: function () {
-    const colorTempK = calculateHCLTemperature(Location.latitude, Location.longitude, 0.15, 10)
+    const colorTempK = calculateHCLTemperature(Location.latitude, Location.longitude)
     log.debug('Set HCL Temperature: {} K'.format(colorTempK))
     WbDali.setColourTemperature(3, '00', colorTempK)
   },
