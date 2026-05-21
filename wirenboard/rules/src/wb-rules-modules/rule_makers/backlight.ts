@@ -5,6 +5,21 @@ type offFuncType = () => void
 type valueFuncType = () => boolean
 type shouldTurnOnBacklightFuncType = () => boolean
 
+/**
+ * Создаёт правило, которое включает подсветку по присутствию или открытию двери
+ * и выключает её после периода без движения.
+ *
+ * @param ruleName Уникальное имя правила wb-rules.
+ * @param presenceDevice Обёртка датчика присутствия, который используется как источник движения.
+ * @param backlightControl Полный топик контрола, который включает или отключает эту подсветку, например `Backlights/cabinet`.
+ * @param backlightOnFunc Функция, которая физически включает подсветку.
+ * @param backlightOffFunc Функция, которая физически выключает подсветку.
+ * @param backlightValueFunc Функция, которая возвращает текущее физическое состояние подсветки.
+ * @param conditionTopic Полный топик контрола, изменения которого должны переоценивать возможность включения подсветки.
+ * @param shouldTurnOnBacklightFunc Функция, которая возвращает, можно ли сейчас включать подсветку.
+ * @param timeoutMs Задержка перед выключением подсветки после исчезновения присутствия.
+ * @param doorSensorTopic Необязательный полный топик геркона, который также должен включать подсветку.
+ */
 export function makeBacklightRule(
   ruleName: string,
   presenceDevice: MTDX62MB,
