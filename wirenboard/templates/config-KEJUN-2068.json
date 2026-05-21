@@ -1,0 +1,206 @@
+{
+	"device_type": "KEJUN-2068",
+	"title": "KEJUN-2068",
+	"device": {
+		"name": "KEJUN-2068",
+		"id": "kejun-2068",
+		"groups": [
+			{
+				"title": "Pressure",
+				"id": "pressure",
+			},
+			{
+				"title": "Temperature",
+				"id": "temperature",
+			},
+			{
+				"title": "General",
+				"id": "general"
+			},
+		],
+		"parameters": [
+			{
+				"id": "pressure_decimal_point",
+				"address": "0x304",
+				"reg_type": "holding_multi",
+				"title": "Pressure decimal point",
+				"format": "u16",
+				"min": 0,
+				"max": 9,
+				"units": "Base Kpa",
+				"type": "value",
+				"default": 5,
+				"group": "pressure"
+			},
+			{
+				"id": "temperature_decimal_point",
+				"address": "0x305",
+				"reg_type": "holding_multi",
+				"title": "Temperature decimal point",
+				"format": "u16",
+				"min": 0,
+				"max": 9,
+				"type": "value",
+				"enabled": false,
+				"default": 1,
+				"group": "temperature"
+			},
+			{
+				"id": "temperature_index",
+				"address": "0x306",
+				"reg_type": "holding_multi",
+				"title": "Temperature index",
+				"format": "float",
+				"type": "value",
+				"enabled": false,
+				"default": 1,
+				"group": "temperature"
+			},
+			{
+				"id": "pressure_base_value",
+				"address": "0x308",
+				"reg_type": "holding_multi",
+				"title": "Pressure base value",
+				"format": "float",
+				"units": "Kpa",
+				"type": "value",
+				"default": 0,
+				"group": "pressure"
+			},
+			{
+				"id": "unit_of_pressure",
+				"address": "0x30c",
+				"reg_type": "holding_multi",
+				"title": "Unit of pressure",
+				"enum": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+				"enum_titles": [
+					"Kpa",
+					"Mpa",
+					"mmH2O",
+					"mH2O",
+					"mmOIL",
+					"mOIL",
+					"bar",
+					"psi",
+					"Pa",
+					"mbar",
+				],
+				"type": "value",
+				"default": 1,
+				"group": "pressure"
+			},
+			{
+				"id": "unit_of_temperature",
+				"address": "0x30d",
+				"reg_type": "holding_multi",
+				"title": "Unit of temperature",
+				"enum": [ 129, 130 ],
+				"enum_titles": [
+					"°C",
+					"°F",
+				],
+				"type": "value",
+				"default": 129,
+				"group": "temperature"
+			},
+			{
+				"id": "slave_addr",
+				"title": "Адрес",
+				"reg_type": "holding",
+				"address": "0x300",
+				"min": 1,
+				"max": 247,
+				"default": 1,
+				"group": "general",
+				"order": 1
+			}
+		],
+		"channels": [
+			{
+				"address": "0x30c",
+				"reg_type": "holding_multi",
+				"name": "Unit of pressure",
+				"enum": [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10 ],
+				"enum_titles": [
+					"Kpa",
+					"Mpa",
+					"mmH2O",
+					"mH2O",
+					"mmOIL",
+					"mOIL",
+					"bar",
+					"psi",
+					"Pa",
+					"mbar",
+				],
+				"type": "value",
+				"group": "pressure"
+			},
+			{
+				"address": "0x404",
+				"reg_type": "holding",
+				"name": "Pressure value",
+				"format": "float",
+				"type": "value",
+				"readonly": true,
+				"group": "pressure"
+			},
+			{
+				"address": "0x408",
+				"reg_type": "holding",
+				"name": "Temperature value",
+				"format": "float",
+				"type": "value",
+				"readonly": true,
+				"group": "temperature"
+			},
+			{
+				"address": "0x40a",
+				"reg_type": "holding",
+				"name": "Liquid level",
+				"format": "float",
+				"type": "value",
+				"readonly": true,
+				"enabled": false,
+				"group": "temperature"
+			},
+			{
+				"address": "0x40c",
+				"reg_type": "holding",
+				"name": "Ambient temperature",
+				"format": "float",
+				"type": "value",
+				"readonly": true,
+				"enabled": false,
+				"group": "temperature"
+			},
+		],
+		"translations": {
+			"ru": {
+				"Pressure": "Давление",
+				"Temperature": "Температура",
+				"General": "Общий",
+				"Pressure decimal point": "Десятичная точка (Давление)",
+				"Temperature decimal point": "Десятичная точка (Температура)",
+				"Temperature index": "Температурный индекс",
+				"Pressure base value": "Базовое значение давления",
+				"Unit of pressure": "Единица измерения давления",
+				"Kpa": "кПа",
+				"Mpa": "МПа",
+				"mmH2O": "мм вод.ст.",
+				"mH2O": "м вод.ст.",
+				"mmOIL": "мм OIL",
+				"mOIL": "м OIL",
+				"bar": "бар",
+				"psi": "PSI",
+				"Pa": "Па",
+				"mbar": "мбар",
+				"Unit of temperature": "Единица измерения температуры",
+				"Pressure value": "Давления",
+				"Temperature value": "Температура",
+				"Liquid level": "Уровень жидкости",
+				"Ambient temperature": "Температура окружающей среды",
+			}
+		}
+	}
+}
