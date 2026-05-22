@@ -13,6 +13,18 @@ readonly FADE_TIME_SECONDS="1.4"
 readonly FADE_TIME_DTR0="3"
 readonly FADE_RATE_STEPS_PER_SECOND="179"
 readonly FADE_RATE_DTR0="3"
+readonly SCENE_0="0"
+readonly SCENE_0_BRIGHTNESS_PERCENT="30"
+readonly SCENE_0_BRIGHTNESS_DTR0="210"
+readonly SCENE_0_COLOR_TEMPERATURE_K="3000"
+readonly SCENE_0_COLOR_TEMPERATURE_DTR0="77"
+readonly SCENE_0_COLOR_TEMPERATURE_DTR1="1"
+readonly SCENE_1="1"
+readonly SCENE_1_BRIGHTNESS_PERCENT="50"
+readonly SCENE_1_BRIGHTNESS_DTR0="229"
+readonly SCENE_1_COLOR_TEMPERATURE_K="4000"
+readonly SCENE_1_COLOR_TEMPERATURE_DTR0="250"
+readonly SCENE_1_COLOR_TEMPERATURE_DTR1="0"
 readonly DALI_COMMAND_DELAY_SECONDS="1"
 
 if ! command -v wb-mqtt-dali >/dev/null 2>&1; then
@@ -40,6 +52,16 @@ set_dtr0() {
     --data "${value}"
 }
 
+set_dtr1() {
+  value="$1"
+
+  run_dali_command \
+    --send-command "${GATEWAY}" \
+    --bus "${BUS}" \
+    --command DTR1 \
+    --data "${value}"
+}
+
 send_address_command() {
   address="$1"
   command="$2"
@@ -49,6 +71,60 @@ send_address_command() {
     --bus "${BUS}" \
     --address "${address}" \
     --command "${command}"
+}
+
+send_address_command_with_data() {
+  address="$1"
+  command="$2"
+  data="$3"
+
+  run_dali_command \
+    --send-command "${GATEWAY}" \
+    --bus "${BUS}" \
+    --address "${address}" \
+    --command "${command}" \
+    --data "${data}"
+}
+
+send_group_command() {
+  group="$1"
+  command="$2"
+
+  run_dali_command \
+    --send-command "${GATEWAY}" \
+    --bus "${BUS}" \
+    --group "${group}" \
+    --command "${command}"
+}
+
+send_group_command_with_data() {
+  group="$1"
+  command="$2"
+  data="$3"
+
+  run_dali_command \
+    --send-command "${GATEWAY}" \
+    --bus "${BUS}" \
+    --group "${group}" \
+    --command "${command}" \
+    --data "${data}"
+}
+
+set_group_scene() {
+  scene="$1"
+  brightness_percent="$2"
+  brightness_dtr0="$3"
+  color_temperature_k="$4"
+  color_temperature_dtr0="$5"
+  color_temperature_dtr1="$6"
+
+  echo "Setting scene ${scene} for group ${GROUP}: brightness ${brightness_percent}%, color temperature ${color_temperature_k}K"
+
+  set_dtr0 "${color_temperature_dtr0}"
+  set_dtr1 "${color_temperature_dtr1}"
+  send_group_command "${GROUP}" DT8.SetTemporaryColourTemperature
+  set_dtr0 "${brightness_dtr0}"
+  send_group_command_with_data "${GROUP}" SetScene "${scene}"
 }
 
 echo "Stopping wb-mqtt-dali service"
@@ -74,5 +150,23 @@ for address in ${ADDRESSES}; do
   set_dtr0 "${FADE_RATE_DTR0}"
   send_address_command "${address}" SetFadeRate
 done
+
+# Set scene 0: brightness 30%, color temperature 3000K.
+set_group_scene \
+  "${SCENE_0}" \
+  "${SCENE_0_BRIGHTNESS_PERCENT}" \
+  "${SCENE_0_BRIGHTNESS_DTR0}" \
+  "${SCENE_0_COLOR_TEMPERATURE_K}" \
+  "${SCENE_0_COLOR_TEMPERATURE_DTR0}" \
+  "${SCENE_0_COLOR_TEMPERATURE_DTR1}"
+
+# Set scene 1: brightness 50%, color temperature 4000K.
+set_group_scene \
+  "${SCENE_1}" \
+  "${SCENE_1_BRIGHTNESS_PERCENT}" \
+  "${SCENE_1_BRIGHTNESS_DTR0}" \
+  "${SCENE_1_COLOR_TEMPERATURE_K}" \
+  "${SCENE_1_COLOR_TEMPERATURE_DTR0}" \
+  "${SCENE_1_COLOR_TEMPERATURE_DTR1}"
 
 echo "Done"
