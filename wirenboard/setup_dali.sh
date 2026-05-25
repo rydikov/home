@@ -13,6 +13,10 @@ readonly FADE_TIME_SECONDS="1.4"
 readonly FADE_TIME_DTR0="3"
 readonly FADE_RATE_STEPS_PER_SECOND="179"
 readonly FADE_RATE_DTR0="3"
+readonly POWER_ON_LEVEL_NAME="Off"
+readonly POWER_ON_LEVEL_DTR0="0"
+readonly SYSTEM_FAILURE_LEVEL_NAME="Off"
+readonly SYSTEM_FAILURE_LEVEL_DTR0="0"
 readonly SCENE_0="0"
 readonly SCENE_0_BRIGHTNESS_PERCENT="30"
 readonly SCENE_0_BRIGHTNESS_DTR0="210"
@@ -110,6 +114,17 @@ send_group_command_with_data() {
     --data "${data}"
 }
 
+set_address_level_setting() {
+  address="$1"
+  label="$2"
+  dtr0_value="$3"
+  command="$4"
+
+  echo "Setting ${label} level for short address ${address}"
+  set_dtr0 "${dtr0_value}"
+  send_address_command "${address}" "${command}"
+}
+
 set_group_scene() {
   scene="$1"
   brightness_percent="$2"
@@ -149,6 +164,9 @@ for address in ${ADDRESSES}; do
   echo "Setting fade rate ${FADE_RATE_STEPS_PER_SECOND} steps/s for short address ${address}"
   set_dtr0 "${FADE_RATE_DTR0}"
   send_address_command "${address}" SetFadeRate
+
+  set_address_level_setting "${address}" "power-on ${POWER_ON_LEVEL_NAME}" "${POWER_ON_LEVEL_DTR0}" SetPowerOnLevel
+  set_address_level_setting "${address}" "system failure ${SYSTEM_FAILURE_LEVEL_NAME}" "${SYSTEM_FAILURE_LEVEL_DTR0}" SetSystemFailureLevel
 done
 
 # Set scene 0: brightness 30%, color temperature 3000K.
