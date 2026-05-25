@@ -27,6 +27,10 @@ export class AqaraSensor extends DeviceBasedClass {
     return Number(this.device?.getControl('temperature')?.getValue())
   }
 
+  setLinkquality(value: number) {
+    this.device?.getControl('linkquality')?.setValue(value)
+  }
+
   setError(errMsg: string) {
     this.device?.controlsList().forEach(function (ctrl) {
       ctrl.setError(errMsg)
