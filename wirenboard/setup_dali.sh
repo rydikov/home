@@ -2,50 +2,66 @@
 
 set -eu
 
-# Usage example:
+# Пример запуска:
 #   ./setup_dali.sh
 
+# Базовые параметры DALI-шлюза, шины, группы и коротких адресов светильников.
 readonly GATEWAY="wb-dali_22"
 readonly BUS="3"
 readonly GROUP="0"
 readonly ADDRESSES="0 1"
+
+# Параметры плавного изменения яркости.
+# В комментарии хранится человекочитаемое значение, а в DTR0 — код DALI.
 readonly FADE_TIME_SECONDS="1.4"
 readonly FADE_TIME_DTR0="3"
 readonly FADE_RATE_STEPS_PER_SECOND="179"
 readonly FADE_RATE_DTR0="3"
+
+# Уровни яркости при подаче питания и при системной ошибке.
 readonly POWER_ON_LEVEL_NAME="Off"
 readonly POWER_ON_LEVEL_DTR0="0"
 readonly SYSTEM_FAILURE_LEVEL_NAME="Off"
 readonly SYSTEM_FAILURE_LEVEL_DTR0="0"
+
+# Настройки сцены 0: яркость 30%, цветовая температура 3000K.
 readonly SCENE_0="0"
 readonly SCENE_0_BRIGHTNESS_PERCENT="30"
 readonly SCENE_0_BRIGHTNESS_DTR0="210"
 readonly SCENE_0_COLOR_TEMPERATURE_K="3000"
 readonly SCENE_0_COLOR_TEMPERATURE_DTR0="77"
 readonly SCENE_0_COLOR_TEMPERATURE_DTR1="1"
+
+# Настройки сцены 1: яркость 50%, цветовая температура 4000K.
 readonly SCENE_1="1"
 readonly SCENE_1_BRIGHTNESS_PERCENT="50"
 readonly SCENE_1_BRIGHTNESS_DTR0="229"
 readonly SCENE_1_COLOR_TEMPERATURE_K="4000"
 readonly SCENE_1_COLOR_TEMPERATURE_DTR0="250"
 readonly SCENE_1_COLOR_TEMPERATURE_DTR1="0"
+
+# Пауза между командами, чтобы DALI-устройства успевали обработать настройки.
 readonly DALI_COMMAND_DELAY_SECONDS="1"
 
+# Проверяем, что на контроллере доступна утилита управления DALI.
 if ! command -v wb-mqtt-dali >/dev/null 2>&1; then
   echo "Error: wb-mqtt-dali command not found" >&2
   exit 1
 fi
 
+# Запускаем сервис обратно при выходе из скрипта.
 start_wb_mqtt_dali() {
   echo "Starting wb-mqtt-dali service"
   service wb-mqtt-dali start
 }
 
+# Выполняем одну команду wb-mqtt-dali и выдерживаем паузу после нее.
 run_dali_command() {
   wb-mqtt-dali "$@"
   sleep "${DALI_COMMAND_DELAY_SECONDS}"
 }
 
+# Записываем значение во временный DALI-регистр DTR0.
 set_dtr0() {
   value="$1"
 
@@ -56,6 +72,7 @@ set_dtr0() {
     --data "${value}"
 }
 
+# Записываем значение во временный DALI-регистр DTR1.
 set_dtr1() {
   value="$1"
 
@@ -66,6 +83,7 @@ set_dtr1() {
     --data "${value}"
 }
 
+# Отправляем команду конкретному устройству по короткому адресу.
 send_address_command() {
   address="$1"
   command="$2"
@@ -77,6 +95,7 @@ send_address_command() {
     --command "${command}"
 }
 
+# Отправляем команду с дополнительными данными конкретному устройству.
 send_address_command_with_data() {
   address="$1"
   command="$2"
@@ -90,6 +109,7 @@ send_address_command_with_data() {
     --data "${data}"
 }
 
+# Отправляем команду всей DALI-группе.
 send_group_command() {
   group="$1"
   command="$2"
@@ -101,6 +121,7 @@ send_group_command() {
     --command "${command}"
 }
 
+# Отправляем команду с дополнительными данными всей DALI-группе.
 send_group_command_with_data() {
   group="$1"
   command="$2"
@@ -114,6 +135,7 @@ send_group_command_with_data() {
     --data "${data}"
 }
 
+# Настраиваем уровень яркости устройства для отдельного события.
 set_address_level_setting() {
   address="$1"
   label="$2"
@@ -125,6 +147,8 @@ set_address_level_setting() {
   send_address_command "${address}" "${command}"
 }
 
+# Записываем сцену для группы: сначала временно задаем цветовую температуру,
+# затем сохраняем в сцену нужный уровень яркости.
 set_group_scene() {
   scene="$1"
   brightness_percent="$2"
@@ -142,6 +166,7 @@ set_group_scene() {
   send_group_command_with_data "${GROUP}" SetScene "${scene}"
 }
 
+# Останавливаем сервис на время прямой настройки, чтобы он не мешал командам.
 echo "Stopping wb-mqtt-dali service"
 service wb-mqtt-dali stop
 trap start_wb_mqtt_dali EXIT
@@ -149,6 +174,7 @@ trap start_wb_mqtt_dali EXIT
 echo "Configuring DALI devices ${ADDRESSES} on gateway ${GATEWAY}, bus ${BUS}"
 
 for address in ${ADDRESSES}; do
+  # Добавляем каждый светильник в общую группу.
   echo "Adding short address ${address} to group ${GROUP}"
   run_dali_command \
     --send-command "${GATEWAY}" \
@@ -157,19 +183,22 @@ for address in ${ADDRESSES}; do
     --command AddToGroup \
     --data "${GROUP}"
 
+  # Задаем время плавного перехода между уровнями яркости.
   echo "Setting fade time ${FADE_TIME_SECONDS}s for short address ${address}"
   set_dtr0 "${FADE_TIME_DTR0}"
   send_address_command "${address}" SetFadeTime
 
+  # Задаем скорость изменения яркости.
   echo "Setting fade rate ${FADE_RATE_STEPS_PER_SECOND} steps/s for short address ${address}"
   set_dtr0 "${FADE_RATE_DTR0}"
   send_address_command "${address}" SetFadeRate
 
+  # Задаем поведение при включении питания и при системной ошибке.
   set_address_level_setting "${address}" "power-on ${POWER_ON_LEVEL_NAME}" "${POWER_ON_LEVEL_DTR0}" SetPowerOnLevel
   set_address_level_setting "${address}" "system failure ${SYSTEM_FAILURE_LEVEL_NAME}" "${SYSTEM_FAILURE_LEVEL_DTR0}" SetSystemFailureLevel
 done
 
-# Set scene 0: brightness 30%, color temperature 3000K.
+# Сохраняем сцену 0: яркость 30%, цветовая температура 3000K.
 set_group_scene \
   "${SCENE_0}" \
   "${SCENE_0_BRIGHTNESS_PERCENT}" \
@@ -178,7 +207,7 @@ set_group_scene \
   "${SCENE_0_COLOR_TEMPERATURE_DTR0}" \
   "${SCENE_0_COLOR_TEMPERATURE_DTR1}"
 
-# Set scene 1: brightness 50%, color temperature 4000K.
+# Сохраняем сцену 1: яркость 50%, цветовая температура 4000K.
 set_group_scene \
   "${SCENE_1}" \
   "${SCENE_1_BRIGHTNESS_PERCENT}" \
