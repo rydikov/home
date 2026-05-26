@@ -16,5 +16,6 @@ mqtt:
   sensor: !include_dir_merge_list mqtt/sensors
   switch: !include_dir_merge_list mqtt/switches
   button: !include_dir_merge_list mqtt/buttons
+  light: !include_dir_merge_list mqtt/lights
 
 sensor: !include_dir_merge_list sensors/
