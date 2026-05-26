@@ -1,0 +1,28 @@
+- unique_id: wb-msw-v4_126-temperature
+  name: "Кабинет: Температура"
+  state_topic: "/devices/wb-msw-v4_126/controls/Temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+  suggested_display_precision: 2
+- unique_id: wb-msw-v4_126-humidity
+  name: "Кабинет: Влажность"
+  state_topic: "/devices/wb-msw-v4_126/controls/Humidity"
+  device_class: "humidity"
+  unit_of_measurement: "%"
+  suggested_display_precision: 2
+- unique_id: wb-msw-v4_126-CO2
+  name: "Кабинет: CO2"
+  state_topic: "/devices/wb-msw-v4_126/controls/CO2"
+  device_class: "carbon_dioxide"
+  unit_of_measurement: "ppm"
+- unique_id: wb-msw-v4_126-VOC
+  name: "Кабинет: Качество воздуха VOC"
+  state_topic: "/devices/wb-msw-v4_126/controls/Air Quality (VOC)"
+  device_class: "volatile_organic_compounds_parts"
+  unit_of_measurement: "ppb"
+- unique_id: wb-msw-v4_126-sound-level
+  name: "Кабинет: Шум"
+  state_topic: "/devices/wb-msw-v4_126/controls/Sound Level"
+  device_class: "sound_pressure"
+  unit_of_measurement: "dB"
+  suggested_display_precision: 2

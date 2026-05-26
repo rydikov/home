@@ -1,0 +1,6 @@
+- platform: mqtt_room
+  device_id: "max-iphone"
+  name: "Max iPhone"
+  state_topic: "espresense/devices/iphone-max"
+  timeout: 10
+  away_timeout: 120

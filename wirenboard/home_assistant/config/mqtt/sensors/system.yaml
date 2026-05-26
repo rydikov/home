@@ -1,0 +1,5 @@
+- unique_id: wb_cpu_temperature
+  name: "CPU Temperature"
+  state_topic: "/devices/hwmon/controls/CPU Temperature"
+  unit_of_measurement: "°C"
+  suggested_display_precision: 2

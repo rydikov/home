@@ -1,0 +1,32 @@
+- id: '1753715490725'
+  alias: Отключить Motion Detection при снятии охраны
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.ax_pro_podval
+    from:
+    to: '3'
+  conditions: []
+  actions:
+  - type: turn_off
+    device_id: fc131a886d3c644571ae0ffcbc469ca8
+    entity_id: 895773d18b22dc1bef655e34e70e9077
+    domain: switch
+  mode: single
+- id: '1753866468117'
+  alias: Включить Motion Detection при постановки на охрану
+  description: ''
+  triggers:
+  - trigger: state
+    entity_id:
+    - sensor.ax_pro_podval
+    from:
+    to: '1'
+  conditions: []
+  actions:
+  - type: turn_on
+    device_id: fc131a886d3c644571ae0ffcbc469ca8
+    entity_id: 895773d18b22dc1bef655e34e70e9077
+    domain: switch
+  mode: single

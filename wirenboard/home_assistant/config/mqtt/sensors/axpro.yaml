@@ -1,0 +1,64 @@
+- unique_id: ax-pro-state-1
+  name: "Ax Pro: Подвал"
+  state_topic: "/devices/AxPro/controls/state_01"
+  json_attributes_topic: "/devices/AxPro/controls/state_01/meta"
+- unique_id: ax-pro-1-temperature
+  name: "ДТ Улица: Температура"
+  state_topic: "/devices/ax-pro-1/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-1-humidity
+  name: "ДТ Улица: Влажность"
+  state_topic: "/devices/ax-pro-1/controls/humidity"
+  device_class: "humidity"
+  unit_of_measurement: "%"
+- unique_id: ax-pro-2-temperature
+  name: "ДТ Погреб: Температура"
+  state_topic: "/devices/ax-pro-2/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-2-humidity
+  name: "ДТ Погреб: Влажность"
+  state_topic: "/devices/ax-pro-2/controls/humidity"
+  device_class: "humidity"
+  unit_of_measurement: "%"
+- unique_id: ax-pro-3-temperature
+  name: "ДД Бар: Температура"
+  state_topic: "/devices/ax-pro-3/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-4-temperature
+  name: "ДД Склад: Температура"
+  state_topic: "/devices/ax-pro-4/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-6-temperature
+  name: "ДО Спортазл: Температура"
+  state_topic: "/devices/ax-pro-6/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-8-temperature
+  name: "ДД Спортзал: Температура"
+  state_topic: "/devices/ax-pro-8/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-10-temperature
+  name: "ДО Бар: Температура"
+  state_topic: "/devices/ax-pro-10/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-12-temperature
+  name: "Датчик дыма отключен: Температура"
+  state_topic: "/devices/ax-pro-12/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-13-temperature
+  name: "Датчик дыма отключен: Температура"
+  state_topic: "/devices/ax-pro-13/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"
+- unique_id: ax-pro-11-temperature
+  name: "Уличная сирена: Температура"
+  state_topic: "/devices/ax-pro-11/controls/temperature"
+  device_class: "temperature"
+  unit_of_measurement: "°C"

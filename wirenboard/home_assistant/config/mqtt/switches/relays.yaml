@@ -1,0 +1,21 @@
+- unique_id: wb_mrm2_mini_40_1
+  name: "WB Mini 1"
+  state_topic: "/devices/wb-mrm2-mini_40/controls/K1"
+  command_topic: "/devices/wb-mrm2-mini_40/controls/K1/on"
+  payload_on: "1"
+  payload_off: "0"
+  retain: true
+- unique_id: wb_mrm2_mini_40_2
+  name: "WB Mini 2"
+  state_topic: "/devices/wb-mrm2-mini_40/controls/K2"
+  command_topic: "/devices/wb-mrm2-mini_40/controls/K2/on"
+  payload_on: "1"
+  payload_off: "0"
+  retain: true
+- unique_id: wb_mr6c_217_6
+  name: "WB MR6C 217 6"
+  state_topic: "/devices/wb-mr6cv3_217/controls/K6"
+  command_topic: "/devices/wb-mr6cv3_217/controls/K6/on"
+  payload_on: "1"
+  payload_off: "0"
+  retain: true

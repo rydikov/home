@@ -1,0 +1,15 @@
+- unique_id: scene_switch_relax
+  name: "Relax Scene"
+  command_topic: "/devices/scenes/controls/relax_evening/on"
+  payload_press: "1"
+  retain: false
+- unique_id: scene_switch_movie
+  name: "Movie Scene"
+  command_topic: "/devices/scenes/controls/movie_night/on"
+  payload_press: "1"
+  retain: false
+- unique_id: scene_switch_morning
+  name: "Morning Scene"
+  command_topic: "/devices/scenes/controls/morning_routine/on"
+  payload_press: "1"
+  retain: false
