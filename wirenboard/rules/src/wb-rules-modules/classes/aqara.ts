@@ -7,8 +7,8 @@ export class AqaraSensor extends DeviceBasedClass {
     return '{}/last_seen'.format(this.name)
   }
 
-  get lastSeen(): number {
-    return Number(this.device?.getControl('last_seen')?.getValue())
+  get lastSeen(): string {
+    return String(this.device?.getControl('last_seen')?.getValue())
   }
 
   get humidityTopic(): string {

@@ -5,13 +5,18 @@ import { objectValues, checkAvailability, formatTimestampES5 } from '#wbm/helper
 defineRule('CHECK_AQARA_SENSORS', {
   when: cron('@hourly'),
   then: function () {
-    objectValues(AqaraSensors).forEach((aqara_sernsor) => {
+    objectValues(AqaraSensors).forEach((aqara_sensor) => {
       // convert to sec, check last 3 hours
-      const isAvailable = checkAvailability(aqara_sernsor.lastSeen / 1000, 3600 * 3)
+      const lastSeen = lastSeenDateToTimestamp(aqara_sensor.lastSeen)
+      const isAvailable = checkAvailability(lastSeen / 1000, 3600 * 3)
       if (!isAvailable) {
-        aqara_sernsor.setLinkquality(0)
-        log.error('Aqara sensor: {} offline, last seen {}'.format(JSON.stringify(aqara_sernsor), formatTimestampES5(aqara_sernsor.lastSeen / 1000)))
+        aqara_sensor.setLinkquality(0)
+        log.error('Aqara sensor: {} offline, last seen {}'.format(JSON.stringify(aqara_sensor), formatTimestampES5(lastSeen)))
       }
     })
   },
 })
+
+function lastSeenDateToTimestamp(lastSeen: string): number {
+  return new Date(lastSeen).getTime()
+}
