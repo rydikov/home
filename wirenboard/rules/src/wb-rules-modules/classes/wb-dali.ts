@@ -23,7 +23,7 @@ export class WBDALI extends DeviceBasedClass {
 
   runScene(bus: number, scene: number, address = 'FF'): void {
     if (address === 'FF') {
-      const sceneControlTopic = '{}_bus_{}_broadcast/go_to_scene/on'.format(this.name, bus)
+      const sceneControlTopic = '{}_bus_{}_broadcast/go_to_scene'.format(this.name, bus)
       log.debug(sceneControlTopic)
       const sceneControl = getControl(sceneControlTopic)
       sceneControl?.setValue(scene)
@@ -31,59 +31,59 @@ export class WBDALI extends DeviceBasedClass {
   }
 
   offGroup(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'off/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'off', 1)
   }
 
   upGroup(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'up/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'up', 1)
   }
 
   downGroup(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'down/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'down', 1)
   }
 
   stepUpGroup(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'step_up/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'step_up', 1)
   }
 
   stepDownGroup(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'step_down/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'step_down', 1)
   }
 
   stepDownAndOffGroup(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'step_down_and_off/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'step_down_and_off', 1)
   }
 
   onAndStepUpGroup(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'on_and_step_up/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'on_and_step_up', 1)
   }
 
   recallGroupMaxLevel(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'recall_max_level/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'recall_max_level', 1)
   }
 
   recallGroupMinLevel(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'recall_min_level/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'recall_min_level', 1)
   }
 
   goToGroupLastActiveLevel(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'go_to_last_active_level/on', 1)
+    this.setGroupControlValue(bus, groupAddress, 'go_to_last_active_level', 1)
   }
 
   setGroupBrightness(bus: number, groupAddress: string, brightness: number): void {
-    this.setGroupControlValue(bus, groupAddress, 'wanted_level/on', brightness)
+    this.setGroupControlValue(bus, groupAddress, 'wanted_level', brightness)
   }
 
   setGroupDapc(bus: number, groupAddress: string, value: number): void {
-    this.setGroupControlValue(bus, groupAddress, 'dapc/on', value)
+    this.setGroupControlValue(bus, groupAddress, 'dapc', value)
   }
 
   runGroupScene(bus: number, groupAddress: string, scene: number): void {
-    this.setGroupControlValue(bus, groupAddress, 'go_to_scene/on', scene)
+    this.setGroupControlValue(bus, groupAddress, 'go_to_scene', scene)
   }
 
   setGroupColourTemperature(bus: number, groupAddress: string, colourTemperature: number): void {
-    this.setGroupControlValue(bus, groupAddress, 'set_colour_temperature/on', colourTemperature)
+    this.setGroupControlValue(bus, groupAddress, 'set_colour_temperature', colourTemperature)
   }
 
   getGroupActualLevel(bus: number, groupAddress: string): number {
