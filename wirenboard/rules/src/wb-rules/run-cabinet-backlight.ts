@@ -7,6 +7,7 @@ const onFunc = (): void => {
   // WbDali.runScene(3, 0)
   // dlc02.runScene('01', 2)
   const brightness = calculateHCLBrightness(Location.latitude, Location.longitude)
+  log.debug('Set HCL Brightness: {} K'.format(brightness))
   WbDali.setGroupBrightness(3, '00', brightness)
 }
 
