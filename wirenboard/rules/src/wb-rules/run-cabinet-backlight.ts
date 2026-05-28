@@ -1,10 +1,13 @@
-import { AstroTimer, PresenceSensors, WbDali } from '#wbm/global-devices'
+import { AstroTimer, PresenceSensors, WbDali, Location } from '#wbm/global-devices'
 import { makeBacklightRule } from '#wbm/rule_makers/backlight'
+import { calculateHCLBrightness } from '#wbm/hcl'
 
 const onFunc = (): void => {
   // RelayLights.Cabinet_01.on()
-  WbDali.runScene(3, 0)
+  // WbDali.runScene(3, 0)
   // dlc02.runScene('01', 2)
+  const brightness = calculateHCLBrightness(Location.latitude, Location.longitude)
+  WbDali.setGroupBrightness(3, '00', brightness)
 }
 
 const offFunc = (): void => {
