@@ -26,6 +26,8 @@ defineRule('Scene_Control', {
     }
     if (cellName == 'morning_routine') {
       log.debug('Сцена Утро активирована')
+      // Плавное выключение
+      WbDali.setGroupDapc(3, '00', 0)
     }
   },
 })
