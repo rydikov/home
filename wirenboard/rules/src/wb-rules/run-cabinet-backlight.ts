@@ -7,14 +7,14 @@ const onFunc = (): void => {
   // WbDali.runScene(3, 0)
   // dlc02.runScene('01', 2)
   const brightness = calculateHCLBrightness(Location.latitude, Location.longitude)
-  log.debug('Set HCL Brightness: {}%'.format(brightness))
+  log.debug('Set HCL Brightness for backlight: {}%'.format(brightness))
   WbDali.setGroupBrightness(3, '00', brightness)
 }
 
 const offFunc = (): void => {
   // RelayLights.Cabinet_01.off()
   // dlc02.offGroup('01', 0)
-  WbDali.offGroup(3, '00')
+  WbDali.setGroupDapc(3, '00', 0)
 }
 
 const valueFunc = (): boolean => {
