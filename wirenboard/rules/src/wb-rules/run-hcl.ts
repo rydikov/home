@@ -8,7 +8,7 @@ const MIN_TEMP_DELTA_K = 20
 // Важно чтобы в настройках балластво были установлены FADE TIME 3-5 сек
 // Температура пишется в устройство независимо от того включено оно или нет
 defineRule('HCL_DALI_GROUP_00_TEMPERATURE', {
-  when: cron('@every 60s'),
+  when: cron('@every 600s'),
   then: function () {
     const colorTempK = calculateHCLTemperature(Location.latitude, Location.longitude)
 

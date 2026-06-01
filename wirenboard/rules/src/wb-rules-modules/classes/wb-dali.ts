@@ -1,5 +1,10 @@
 import { DeviceBasedClass } from '#wbm/classes/base'
 
+export interface Dali2Button {
+  deviceAddress: number
+  intanceNumber: number
+}
+
 // Класс для WB-DALI
 export class WBDALI extends DeviceBasedClass {
 
@@ -92,6 +97,18 @@ export class WBDALI extends DeviceBasedClass {
 
   getGroupCurrentColourTemperature(bus: number, groupAddress: string): number {
     return this.getGroupControlValue(bus, groupAddress, 'current_colour_temperature')
+  }
+
+  getShortPressInstanceTopic(bus: number, dali2Button: Dali2Button): string {
+    return '{}_bus_{}_dali2_{}/short_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.intanceNumber)
+  }
+
+  getLongPressInstanceTopic(bus: number, dali2Button: Dali2Button): string {
+    return '{}_bus_{}_dali2_{}/long_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.intanceNumber)
+  }
+
+  getDoublePressInstanceTopic(bus: number, dali2Button: Dali2Button): string {
+    return '{}_bus_{}_dali2_{}/double_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.intanceNumber)
   }
 
 }
