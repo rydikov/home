@@ -10,26 +10,52 @@ const dali2Buttons: Record<string, Dali2Button> = {
   'test6': { deviceAddress: 1, intanceNumber: 5 },
 }
 
-defineRule('CabinetOffLight', {
+// Device 0
+defineRule('Test1ShortPress', {
   whenChanged: [WbDali.getShortPressInstanceTopic(3, dali2Buttons.test1)],
   then: function (newValue) {
     log.debug('ShortPress test 1 Value: {}'.format(newValue))
-    // WbDali.offGroup(3, '00')
+    WbDali.setDeviceDapc(3, 0, 30)
   },
 })
 
-defineRule('CabinetOffLight1', {
+defineRule('Test1LongPress', {
   whenChanged: [WbDali.getLongPressInstanceTopic(3, dali2Buttons.test1)],
   then: function (newValue) {
     log.debug('LongPress test 1 Value: {}'.format(newValue))
-    // WbDali.offGroup(3, '00')
+    WbDali.stepUpDevice(3, 0)
   },
 })
 
-defineRule('CabinetOffLight2', {
+defineRule('Test1DoublePress', {
   whenChanged: [WbDali.getDoublePressInstanceTopic(3, dali2Buttons.test1)],
   then: function (newValue) {
     log.debug('DoublePress test 1 Value: {}'.format(newValue))
-    // WbDali.offGroup(3, '00')
+    WbDali.setDeviceDapc(3, 0, 0)
+  },
+})
+
+// Device 1
+defineRule('Test5ShortPress', {
+  whenChanged: [WbDali.getShortPressInstanceTopic(3, dali2Buttons.test5)],
+  then: function (newValue) {
+    log.debug('ShortPress test 1 Value: {}'.format(newValue))
+    WbDali.setDeviceDapc(3, 1, 30)
+  },
+})
+
+defineRule('Test5LongPress', {
+  whenChanged: [WbDali.getLongPressInstanceTopic(3, dali2Buttons.test5)],
+  then: function (newValue) {
+    log.debug('LongPress test 1 Value: {}'.format(newValue))
+    WbDali.stepUpDevice(3, 1)
+  },
+})
+
+defineRule('Test5DoublePress', {
+  whenChanged: [WbDali.getDoublePressInstanceTopic(3, dali2Buttons.test5)],
+  then: function (newValue) {
+    log.debug('DoublePress test 1 Value: {}'.format(newValue))
+    WbDali.setDeviceDapc(3, 1, 0)
   },
 })
