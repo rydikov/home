@@ -113,7 +113,7 @@ export const AstroTimer = new AstroTimerCls('AstroTimer')
 export const dlc02 = new DLC02('192.168.1.81')
 
 // WB-DALI
-export const WbDali = new WBDALI('wb-dali_22')
+export const WbDali = new WBDALI('wb-dali_87')
 
 // Датчики AxPro
 export const AxProSensors: Record<string, AxProSensor> = {
