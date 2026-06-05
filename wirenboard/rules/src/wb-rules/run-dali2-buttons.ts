@@ -21,7 +21,7 @@ defineRule('Test1ShortPress', {
 
 defineRule('Test1LongPress', {
   asSoonAs: function () {
-    return WbDali.getLongPressInstanceTopic(3, dali2Buttons.test1)
+    return dev[WbDali.getLongPressInstanceTopic(3, dali2Buttons.test1)] === 1
   },
   then: function (newValue) {
     log.debug('LongPress test 1 Value: {}'.format(newValue))
