@@ -35,12 +35,12 @@ defineRule('Button1ShortPress', {
 })
 
 defineRule('Button1LongPress', {
-  asSoonAs: function () {
+  when: function () {
     return dev[WbDali.getLongPressInstanceTopic(3, dali2Buttons.button1)] == 1
   },
   then: function (newValue) {
     log.debug('LongPress test 1 Value: {}'.format(newValue))
-    WbDali.offDevice(3, 0)
+    WbDali.stepUpDevice(3, 0)
   },
 })
 
