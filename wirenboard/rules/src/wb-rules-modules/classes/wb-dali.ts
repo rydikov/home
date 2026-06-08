@@ -16,14 +16,14 @@ export class WBDALI extends DeviceBasedClass {
     return '{}_bus_{}_{}/{}'.format(this.name, bus, deviceAddress, control)
   }
 
-  private setGroupControlValue(bus: number, groupAddress: string, control: string, value: number): void {
+  private setGroupControlValue(bus: number, groupAddress: string, control: string, value: number | boolean): void {
     const groupControlTopic = this.getGroupControlTopic(bus, groupAddress, control)
     log.debug(groupControlTopic)
     const groupControl = getControl(groupControlTopic)
     groupControl?.setValue(value)
   }
 
-  private setDeviceControlValue(bus: number, deviceAddress: number, control: string, value: number): void {
+  private setDeviceControlValue(bus: number, deviceAddress: number, control: string, value: number | boolean): void {
     const deviceControlTopic = this.getDeviceControlTopic(bus, deviceAddress, control)
     log.debug(deviceControlTopic)
     const deviceControl = getControl(deviceControlTopic)
@@ -56,7 +56,7 @@ export class WBDALI extends DeviceBasedClass {
   // Groups
 
   offGroup(bus: number, groupAddress: string): void {
-    this.setGroupControlValue(bus, groupAddress, 'off', 1)
+    this.setGroupControlValue(bus, groupAddress, 'off', true)
   }
 
   upGroup(bus: number, groupAddress: string): void {
@@ -122,7 +122,7 @@ export class WBDALI extends DeviceBasedClass {
   // Devices
 
   offDevice(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'off', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'off', true)
   }
 
   upDevice(bus: number, deviceAddress: number): void {
