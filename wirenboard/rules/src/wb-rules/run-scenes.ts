@@ -18,7 +18,7 @@ defineRule('Scene_Control', {
 
     if (cellName == 'relax_evening') {
       log.debug('Сцена Расслабляющий вечер активирована')
-      WbDali.runScene(3, 0)
+      WbDali.stepUpDevice(3, 0)
     }
     if (cellName == 'movie_night') {
       log.debug('Сцена Киновечер активирована')

@@ -126,39 +126,39 @@ export class WBDALI extends DeviceBasedClass {
   }
 
   upDevice(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'up', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'up', true)
   }
 
   downDevice(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'down', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'down', true)
   }
 
   stepUpDevice(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'step_up', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'step_up', true)
   }
 
   stepDownDevice(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'step_down', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'step_down', true)
   }
 
   stepDownAndOffDevice(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'step_down_and_off', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'step_down_and_off', true)
   }
 
   onAndStepUpDevice(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'on_and_step_up', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'on_and_step_up', true)
   }
 
   recallDeviceMaxLevel(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'recall_max_level', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'recall_max_level', true)
   }
 
   recallDeviceMinLevel(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'recall_min_level', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'recall_min_level', true)
   }
 
   goToDeviceLastActiveLevel(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'go_to_last_active_level', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'go_to_last_active_level', true)
   }
 
   setDeviceBrightness(bus: number, deviceAddress: number, brightness: number): void {
@@ -178,11 +178,11 @@ export class WBDALI extends DeviceBasedClass {
   }
 
   stepDeviceColourTemperatureWarmer(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'colour_temperature_step_warmer', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'colour_temperature_step_warmer', true)
   }
 
   stepDeviceColourTemperatureCooler(bus: number, deviceAddress: number): void {
-    this.setDeviceControlValue(bus, deviceAddress, 'colour_temperature_step_cooler', 1)
+    this.setDeviceControlValue(bus, deviceAddress, 'colour_temperature_step_cooler', true)
   }
 
   getDeviceActualLevel(bus: number, deviceAddress: number): number {
