@@ -6,7 +6,7 @@ set -eu
 #   ./setup_dali.sh
 
 # Базовые параметры DALI-шлюза, шины, группы и коротких адресов светильников.
-readonly GATEWAY="wb-dali_22"
+readonly GATEWAY="wb-dali_87"
 readonly BUS="3"
 readonly GROUP="0"
 readonly ADDRESSES="0 1"
