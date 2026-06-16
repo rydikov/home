@@ -1,22 +1,22 @@
 - unique_id: dali_group_0
   name: "DALI: Группа 0"
   schema: basic
-  command_topic: "/devices/wb-dali_22_bus_3_group_00/controls/wanted_level/on"
+  command_topic: "/devices/wb-dali_87_bus_3_group_00/controls/wanted_level/on"
   # Если указать тип brightness, то всегда будет уходить 100
   on_command_type: first
-  brightness_command_topic: "/devices/wb-dali_22_bus_3_group_00/controls/wanted_level/on"
-  brightness_state_topic: "/devices/wb-dali_22_bus_3_group_00/controls/actual_level"
+  brightness_command_topic: "/devices/wb-dali_87_bus_3_group_00/controls/wanted_level/on"
+  brightness_state_topic: "/devices/wb-dali_87_bus_3_group_00/controls/actual_level"
   brightness_scale: 100
   brightness_value_template: >
     {{ value | int(0) }}
-  state_topic: "/devices/wb-dali_22_bus_3_group_00/controls/actual_level"
+  state_topic: "/devices/wb-dali_87_bus_3_group_00/controls/actual_level"
   # Здесь указываются значения payload чтобы правильно определялось состояние on/off
   state_value_template: >
     {{ '50' if value | float(0) > 0 else '0' }}
   payload_off: "0"
   payload_on: "50"
-  color_temp_command_topic: "/devices/wb-dali_22_bus_3_group_00/controls/set_colour_temperature/on"
-  color_temp_state_topic: "/devices/wb-dali_22_bus_3_group_00/controls/current_colour_temperature"
+  color_temp_command_topic: "/devices/wb-dali_87_bus_3_group_00/controls/set_colour_temperature/on"
+  color_temp_state_topic: "/devices/wb-dali_87_bus_3_group_00/controls/current_colour_temperature"
   color_temp_kelvin: true
   min_kelvin: 2700
   max_kelvin: 6500
