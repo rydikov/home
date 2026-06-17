@@ -22,3 +22,29 @@
   max_kelvin: 6500
   optimistic: false
   retain: false
+
+- unique_id: dali_group_10_rgbw
+  name: "DALI: Группа 10 RGBW"
+  schema: basic
+  command_topic: "/devices/wb-dali_87_bus_3_group_10/controls/wanted_level/on"
+  on_command_type: first
+  brightness_command_topic: "/devices/wb-dali_87_bus_3_group_10/controls/wanted_level/on"
+  brightness_state_topic: "/devices/wb-dali_87_bus_3_group_10/controls/actual_level"
+  brightness_scale: 100
+  brightness_value_template: >
+    {{ value | int(0) }}
+  state_topic: "/devices/wb-dali_87_bus_3_group_10/controls/actual_level"
+  state_value_template: >
+    {{ '50' if value | float(0) > 0 else '0' }}
+  payload_off: "0"
+  payload_on: "50"
+  rgb_command_topic: "/devices/wb-dali_87_bus_3_group_10/controls/set_rgb/on"
+  rgb_command_template: >
+    {{ red }};{{ green }};{{ blue }}
+  rgb_state_topic: "/devices/wb-dali_87_bus_3_group_10/controls/current_rgb"
+  rgb_value_template: >
+    {{ value | replace(';', ',') }}
+  white_command_topic: "/devices/wb-dali_87_bus_3_group_10/controls/set_white/on"
+  white_scale: 254
+  optimistic: false
+  retain: false
