@@ -25,7 +25,7 @@ const zigbeeAlarms: WbRules.Alarms.Config = {
   // TODO: build dynamically
     {
       'name': 'AqaraTS01IsOffline',
-      'cell': 'AqaraTS01/linkquality',
+      'cell': 'WSDCGQ11LM_AqaraTS01/linkquality',
       'minValue': 10,
       // 'alarmMessage': 'AqaraTS01 is offline',
       // 'noAlarmMessage': 'AqaraTS01 is back on',
