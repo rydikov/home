@@ -10,28 +10,21 @@ const recipients: WbRules.Alarms.TelegramRecipient = {
 }
 
 // Импортируем данные датчиков
-import { AxProSensors, MSWs } from '#wbm/global-devices'
+import { AqaraSensors, AxProSensors, MSWs } from '#wbm/global-devices'
 import { objectValues } from '#wbm/helpers'
 
 // Список алармов Zigbee устройств.
-// Как только сигнал от устройства становится равным 0 - приходит оповещение
 const zigbeeAlarms: WbRules.Alarms.Config = {
   'deviceName': 'Zigbee Alarms',
   'deviceTitle': 'Zigbee Alarms',
 
   'recipients': [recipients],
 
-  'alarms': [
-  // TODO: build dynamically
-    {
-      'name': 'AqaraTS01IsOffline',
-      'cell': 'WSDCGQ11LM_AqaraTS01/linkquality',
-      'minValue': 10,
-      // 'alarmMessage': 'AqaraTS01 is offline',
-      // 'noAlarmMessage': 'AqaraTS01 is back on',
-    },
-
-  ],
+  'alarms': objectValues(AqaraSensors).map(sensor => ({
+    'name': sensor.name,
+    'cell': `${sensor.name}/available`,
+    'expectedValue': true,
+  })),
 }
 
 Alarms.load(zigbeeAlarms)
