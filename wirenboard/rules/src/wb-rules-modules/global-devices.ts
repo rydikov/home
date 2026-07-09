@@ -6,6 +6,7 @@ import { AstroTimerCls } from '#wbm/classes/other'
 import { AxProSensor, AxProArea } from '#wbm/classes/ax-pro'
 import { DLC02 } from '#wbm/classes/dlc-02'
 import { WBDALI } from '#wbm/classes/wb-dali'
+import { type Dali2Button } from '#wbm/classes/wb-dali'
 
 export const Location = readConfig('/mnt/data/supervisor/wb-rules-conf/location.conf') as {
   latitude: number
@@ -115,6 +116,15 @@ export const dlc02 = new DLC02('192.168.1.81')
 
 // WB-DALI
 export const WbDali = new WBDALI('wb-dali_87')
+
+export const dali2MW1Buttons: Record<string, Dali2Button> = {
+  'button1': { deviceAddress: 1, intanceNumber: 5 },
+  'button2': { deviceAddress: 1, intanceNumber: 3 },
+  'button3': { deviceAddress: 1, intanceNumber: 1 },
+  'button4': { deviceAddress: 1, intanceNumber: 4 },
+  'button5': { deviceAddress: 1, intanceNumber: 2 },
+  'button6': { deviceAddress: 1, intanceNumber: 0 },
+}
 
 // Датчики AxPro
 export const AxProSensors: Record<string, AxProSensor> = {

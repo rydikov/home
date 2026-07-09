@@ -5,6 +5,8 @@ export interface Dali2Button {
   intanceNumber: number
 }
 
+type FeedbackCommand = 'ActivateFeedback' | 'StopFeedback'
+
 // Класс для WB-DALI
 export class WBDALI extends DeviceBasedClass {
 
@@ -44,6 +46,20 @@ export class WBDALI extends DeviceBasedClass {
     return Number(deviceControl?.getValue())
   }
 
+  private publishSendCommand(bus: number, clientId: string, command: string): void {
+    publish('/rpc/v1/wb-mqtt-dali/Bus/SendCommand/{}'.format(clientId), JSON.stringify({
+      id: 1,
+      params: {
+        busId: this.getBusId(bus),
+        commands: [command],
+      },
+    }))
+  }
+
+  private getFeedbackCommand(command: FeedbackCommand, dali2Button: Dali2Button): string {
+    return 'FF24.F32.{}(A{}, I{})'.format(command, dali2Button.deviceAddress, dali2Button.intanceNumber)
+  }
+
   runScene(bus: number, scene: number, address = 'FF'): void {
     if (address === 'FF') {
       const sceneControlTopic = '{}_bus_{}_broadcast/go_to_scene'.format(this.name, bus)
@@ -54,6 +70,14 @@ export class WBDALI extends DeviceBasedClass {
   }
 
   // Groups
+
+  getBusId(bus: number): string {
+    return '{}_bus_{}'.format(this.name, bus)
+  }
+
+  getGroupActualLevelTopic(bus: number, groupAddress: string): string {
+    return this.getGroupControlTopic(bus, groupAddress, 'actual_level')
+  }
 
   offGroup(bus: number, groupAddress: string): void {
     this.setGroupControlValue(bus, groupAddress, 'off', true)
@@ -225,6 +249,14 @@ export class WBDALI extends DeviceBasedClass {
 
   getDoublePressInstanceTopic(bus: number, dali2Button: Dali2Button): string {
     return '{}_bus_{}_dali2_{}/double_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.intanceNumber)
+  }
+
+  activateFeedback(bus: number, dali2Button: Dali2Button): void {
+    this.publishSendCommand(bus, 'dali2-feedback', this.getFeedbackCommand('ActivateFeedback', dali2Button))
+  }
+
+  stopFeedback(bus: number, dali2Button: Dali2Button): void {
+    this.publishSendCommand(bus, 'dali2-feedback', this.getFeedbackCommand('StopFeedback', dali2Button))
   }
 
 }
