@@ -126,6 +126,17 @@ export const dali2MW1Buttons: Record<string, Dali2Button> = {
   'button6': { deviceAddress: 1, intanceNumber: 0 },
 }
 
+export const dali2PK8Buttons: Record<string, Dali2Button> = {
+  'button1': { deviceAddress: 2, intanceNumber: 7 },
+  'button2': { deviceAddress: 2, intanceNumber: 6 },
+  'button3': { deviceAddress: 2, intanceNumber: 5 },
+  'button4': { deviceAddress: 2, intanceNumber: 4 },
+  'button5': { deviceAddress: 2, intanceNumber: 3 },
+  'button6': { deviceAddress: 2, intanceNumber: 2 },
+  'button7': { deviceAddress: 2, intanceNumber: 1 },
+  'button8': { deviceAddress: 2, intanceNumber: 0 },
+}
+
 // Датчики AxPro
 export const AxProSensors: Record<string, AxProSensor> = {
   'ax-pro-1': new AxProSensor('ax-pro-1', 'ДТ Улица', true),

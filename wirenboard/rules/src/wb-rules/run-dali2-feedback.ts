@@ -22,6 +22,8 @@ const GROUP_15_ACTUAL_LEVEL_TOPIC = WbDali.getGroupActualLevelTopic(DALI_BUS, '1
 let isGroup00Active = WbDali.getGroupActualLevel(DALI_BUS, '00') > 0
 let isGroup10Active = WbDali.getGroupActualLevel(DALI_BUS, '10') > 0
 
+// Обновляет feedback только при реальном изменении состояния группы.
+// Возвращает актуальное состояние, чтобы вызывающий код сохранил его для следующего события.
 function useFeedback(currentIsActive: boolean, prevIsActive: boolean, button: Dali2Button): boolean {
   if (currentIsActive === prevIsActive) {
     return currentIsActive

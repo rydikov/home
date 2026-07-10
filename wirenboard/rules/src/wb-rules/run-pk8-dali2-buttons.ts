@@ -1,16 +1,4 @@
-import { type Dali2Button } from '#wbm/classes/wb-dali'
-import { WbDali } from '#wbm/global-devices'
-
-const dali2PK8Buttons: Record<string, Dali2Button> = {
-  'button1': { deviceAddress: 2, intanceNumber: 7 },
-  'button2': { deviceAddress: 2, intanceNumber: 6 },
-  'button3': { deviceAddress: 2, intanceNumber: 5 },
-  'button4': { deviceAddress: 2, intanceNumber: 4 },
-  'button5': { deviceAddress: 2, intanceNumber: 3 },
-  'button6': { deviceAddress: 2, intanceNumber: 2 },
-  'button7': { deviceAddress: 2, intanceNumber: 1 },
-  'button8': { deviceAddress: 2, intanceNumber: 0 },
-}
+import { WbDali, dali2PK8Buttons } from '#wbm/global-devices'
 
 // Check
 defineRule('CheckInstance', {
