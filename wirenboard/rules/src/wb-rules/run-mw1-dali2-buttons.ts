@@ -64,7 +64,7 @@ defineRule('Button6ShortPress', {
   whenChanged: [WbDali.getShortPressInstanceTopic(3, dali2MW1Buttons.button6)],
   then: function (newValue) {
     if (newValue) {
-      WbDali.offGroup(3, '10')
+      WbDali.toggleGroup(3, '10', 127)
     }
   },
 })

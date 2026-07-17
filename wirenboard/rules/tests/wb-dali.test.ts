@@ -19,6 +19,24 @@ describe('WBDALI', () => {
     expect(wbDali.getBusId(3)).toBe('wb-dali_87_bus_3')
   })
 
+  it('turns off an active group when toggled', () => {
+    simulator.getControl.defineValue('wb-dali_87_bus_3_group_00', 'actual_level', 100)
+    simulator.getControl.defineValue('wb-dali_87_bus_3_group_00', 'dapc', 180)
+
+    wbDali.toggleGroup(3, '00', 180)
+
+    expect(dev['wb-dali_87_bus_3_group_00/dapc']).toBe(0)
+  })
+
+  it('turns on an inactive group with the requested DAPC value', () => {
+    simulator.getControl.defineValue('wb-dali_87_bus_3_group_00', 'actual_level', 0)
+    simulator.getControl.defineValue('wb-dali_87_bus_3_group_00', 'dapc', 0)
+
+    wbDali.toggleGroup(3, '00', 180)
+
+    expect(dev['wb-dali_87_bus_3_group_00/dapc']).toBe(180)
+  })
+
   it('publishes activate feedback command', () => {
     const publishMock = vi.fn()
     globalThis.publish = publishMock as unknown as typeof publish

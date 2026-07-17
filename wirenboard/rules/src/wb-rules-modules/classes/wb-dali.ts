@@ -127,6 +127,11 @@ export class WBDALI extends DeviceBasedClass {
     this.setGroupControlValue(bus, groupAddress, 'dapc', value)
   }
 
+  toggleGroup(bus: number, groupAddress: string, value: number): void {
+    const dapc = this.getGroupActualLevel(bus, groupAddress) > 0 ? 0 : value
+    this.setGroupDapc(bus, groupAddress, dapc)
+  }
+
   runGroupScene(bus: number, groupAddress: string, scene: number): void {
     this.setGroupControlValue(bus, groupAddress, 'go_to_scene', scene)
   }
