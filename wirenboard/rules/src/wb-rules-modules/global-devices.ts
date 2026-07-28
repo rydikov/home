@@ -18,15 +18,15 @@ export const CPUs: Record<string, string> = {
 }
 
 // Выключатели по группам в комнатах см. docs
-// export const WallSwitches: Record<string, string> = {
-//   Room1_1: 'wb-mcm8_138/Input 1',
-//   Room1_2: 'wb-mcm8_138/Input 2',
-//   Room1_3: 'wb-mcm8_138/Input 3',
-//   Room1_4: 'wb-mcm8_138/Input 4',
-//   Room1_5: 'wb-mcm8_138/Input 5',
-//   Room1_6: 'wb-mcm8_138/Input 6',
-//   Room1_7: 'wb-mcm8_138/Input 7',
-// }
+export const WallSwitches: Record<string, string> = {
+  Room1_1: 'wb-mcm8_138/Input 1',
+  Room1_2: 'wb-mcm8_138/Input 2',
+  Room1_3: 'wb-mcm8_138/Input 3',
+  Room1_4: 'wb-mcm8_138/Input 4',
+  Room1_5: 'wb-mcm8_138/Input 5',
+  Room1_6: 'wb-mcm8_138/Input 6',
+  Room1_7: 'wb-mcm8_138/Input 7',
+}
 
 // Обычный свет у которого есть on/off
 export const RelayLights: Record<string, RelayLight> = {
