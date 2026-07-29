@@ -70,7 +70,7 @@ defineVirtualDevice('dali_groups', {
 
     device_id: {
       order: 40,
-      title: 'ID устройства для синхронизации',
+      title: 'Устройство для получения статуса',
       type: 'value',
       value: 0,
       readonly: false,
@@ -79,7 +79,7 @@ defineVirtualDevice('dali_groups', {
     },
     update: {
       order: 50,
-      title: 'Синхронизировать',
+      title: 'Получить статус',
       type: 'pushbutton',
     },
     updated: {
