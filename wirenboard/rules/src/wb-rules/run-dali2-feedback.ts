@@ -19,7 +19,6 @@ const GROUP_13_ACTUAL_LEVEL_TOPIC = WbDali.getGroupActualLevelTopic(DALI_BUS, '1
 const GROUP_14_ACTUAL_LEVEL_TOPIC = WbDali.getGroupActualLevelTopic(DALI_BUS, '14')
 const GROUP_15_ACTUAL_LEVEL_TOPIC = WbDali.getGroupActualLevelTopic(DALI_BUS, '15')
 
-let isGroup00Active = WbDali.getGroupActualLevel(DALI_BUS, '00') > 0
 let isGroup10Active = WbDali.getGroupActualLevel(DALI_BUS, '10') > 0
 
 // Обновляет feedback только при реальном изменении состояния группы.
@@ -65,7 +64,6 @@ defineRule('Dali2GroupsFeedback', {
     switch (changedTopic) {
 
       case GROUP_00_ACTUAL_LEVEL_TOPIC:
-        isGroup00Active = useFeedback(currentIsActive, isGroup00Active, dali2MW1Buttons.button6)
         break
       case GROUP_01_ACTUAL_LEVEL_TOPIC:
         break
@@ -86,7 +84,7 @@ defineRule('Dali2GroupsFeedback', {
       case GROUP_09_ACTUAL_LEVEL_TOPIC:
         break
       case GROUP_10_ACTUAL_LEVEL_TOPIC:
-        isGroup10Active = useFeedback(currentIsActive, isGroup10Active, dali2MW1Buttons.button5)
+        isGroup10Active = useFeedback(currentIsActive, isGroup10Active, dali2MW1Buttons.button6)
         break
       case GROUP_11_ACTUAL_LEVEL_TOPIC:
         break
