@@ -90,3 +90,40 @@ defineRule('Button3LongPress', {
     WbDali.downDevice(3, 1)
   },
 })
+
+// Device 2
+defineRule('Button6ShortPress', {
+  whenChanged: [WbDali.getShortPressInstanceTopic(3, dali2PK8Buttons.button6)],
+  then: function (newValue) {
+    if (newValue) {
+      WbDali.setDeviceDapc(3, 2, 100)
+    }
+  },
+})
+
+defineRule('Button5ShortPress', {
+  whenChanged: [WbDali.getShortPressInstanceTopic(3, dali2PK8Buttons.button5)],
+  then: function (newValue) {
+    if (newValue) {
+      WbDali.setDeviceDapc(3, 2, 0)
+    }
+  },
+})
+
+defineRule('Button6LongPress', {
+  when: function () {
+    return dev[WbDali.getLongPressInstanceTopic(3, dali2PK8Buttons.button6)] == 1
+  },
+  then: function () {
+    WbDali.upDevice(3, 2)
+  },
+})
+
+defineRule('Button5LongPress', {
+  when: function () {
+    return dev[WbDali.getLongPressInstanceTopic(3, dali2PK8Buttons.button5)] == 1
+  },
+  then: function () {
+    WbDali.downDevice(3, 2)
+  },
+})
