@@ -1,6 +1,6 @@
 // Проверяем что данные корректно приходят от Ax-Pro, если нет или датчик offline, то принудительно ставим все контролы в ошибку
-import { AxProSensors } from '#wbm/global-devices'
-import { checkAvailability, objectValues } from '#wbm/helpers'
+const { AxProSensors } = require('global-devices') as typeof import('#wbm/global-devices')
+const { checkAvailability, objectValues } = require('helpers') as typeof import('#wbm/helpers')
 
 defineRule('CHECK_AXPRO_SENSORS', {
   when: cron('@hourly'),

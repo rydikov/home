@@ -1,8 +1,8 @@
 // Синхронизация виртуального устройства AstroTimer с suncalc
 
-import { SunCalc } from '#wbm/suncalc'
-import { formatTimestampES5 } from '#wbm/helpers'
-import { Location } from '#wbm/global-devices'
+const { SunCalc } = require('suncalc') as typeof import('#wbm/suncalc')
+const { formatTimestampES5 } = require('helpers') as typeof import('#wbm/helpers')
+const { Location } = require('global-devices') as typeof import('#wbm/global-devices')
 
 defineVirtualDevice('AstroTimer', {
   title: 'Астрономический таймер',

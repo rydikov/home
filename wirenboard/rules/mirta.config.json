@@ -28,6 +28,23 @@
           ]
         }
       ],
+      // QuickJS: модули компилируются локально в CommonJS,
+      // а TypeScript-сценарии транспилируются самим контроллером.
+      "wb-rules-quickjs": [
+        {
+          "from": "dist/quickjs/wb-rules-modules/",
+          "to": "/mnt/data/etc/wb-rules-modules/",
+          "cleanup": true
+        },
+        {
+          "from": "src/wb-rules/",
+          "to": "/mnt/data/etc/wb-rules/",
+          "cleanup": true,
+          "protect": [
+            "alarms.conf"
+          ]
+        }
+      ],
       // Расширенный набор: добавляем ещё и шаблоны устройств.
       "templates": [
         {
@@ -45,6 +62,12 @@
         "connection": "default",
         "mappings": [
           "wb-rules-es5"
+        ]
+      },
+      "quickjs": {
+        "connection": "default",
+        "mappings": [
+          "wb-rules-quickjs"
         ]
       }
     }

@@ -1,5 +1,9 @@
-import { type Dali2Button } from '#wbm/classes/wb-dali'
-import { WbDali, dali2MW1Buttons } from '#wbm/global-devices'
+const { WbDali, dali2MW1Buttons } = require('global-devices') as typeof import('#wbm/global-devices')
+
+interface Dali2Button {
+  deviceAddress: number
+  intanceNumber: number
+}
 
 const DALI_BUS = 3
 const GROUP_00_ACTUAL_LEVEL_TOPIC = WbDali.getGroupActualLevelTopic(DALI_BUS, '00')

@@ -1,12 +1,23 @@
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { RelayLight, DimmableLight, MSW } from '#wbm/classes/wb'
-import { AqaraSensor } from '#wbm/classes/aqara'
-import { MTDX62MB } from '#wbm/classes/mtdx62-mb'
-import { AstroTimerCls } from '#wbm/classes/other'
-import { AxProSensor, AxProArea } from '#wbm/classes/ax-pro'
-import { DLC02 } from '#wbm/classes/dlc-02'
-import { WBDALI } from '#wbm/classes/wb-dali'
-import { type Dali2Button } from '#wbm/classes/wb-dali'
+const { RelayLight, DimmableLight, MSW } = require('classes/wb') as typeof import('#wbm/classes/wb')
+const { AqaraSensor } = require('classes/aqara') as typeof import('#wbm/classes/aqara')
+const { MTDX62MB } = require('classes/mtdx62-mb') as typeof import('#wbm/classes/mtdx62-mb')
+const { AstroTimerCls } = require('classes/other') as typeof import('#wbm/classes/other')
+const { AxProSensor, AxProArea } = require('classes/ax-pro') as typeof import('#wbm/classes/ax-pro')
+const { DLC02 } = require('classes/dlc-02') as typeof import('#wbm/classes/dlc-02')
+const { WBDALI } = require('classes/wb-dali') as typeof import('#wbm/classes/wb-dali')
+
+type RelayLight = InstanceType<typeof RelayLight>
+type MSW = InstanceType<typeof MSW>
+type AqaraSensor = InstanceType<typeof AqaraSensor>
+type MTDX62MB = InstanceType<typeof MTDX62MB>
+type AxProSensor = InstanceType<typeof AxProSensor>
+type AxProArea = InstanceType<typeof AxProArea>
+
+interface Dali2Button {
+  deviceAddress: number
+  intanceNumber: number
+}
 
 export const Location = readConfig('/mnt/data/supervisor/wb-rules-conf/location.conf') as {
   latitude: number

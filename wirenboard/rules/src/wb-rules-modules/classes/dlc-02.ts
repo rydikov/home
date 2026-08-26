@@ -1,4 +1,4 @@
-import { toHex, toBinary, binaryToHex } from '#wbm/helpers'
+const { toHex, toBinary, binaryToHex } = require('helpers') as typeof import('#wbm/helpers')
 
 // Modbus function codes used by DLC-02
 const FUNCTION_16 = 16 // Write Multiple Registers

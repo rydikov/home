@@ -1,4 +1,6 @@
-import { MTDX62MB } from '#wbm/classes/mtdx62-mb'
+const { MTDX62MB } = require('classes/mtdx62-mb') as typeof import('#wbm/classes/mtdx62-mb')
+
+type MTDX62MB = InstanceType<typeof MTDX62MB>
 
 type onFuncType = () => void
 type offFuncType = () => void

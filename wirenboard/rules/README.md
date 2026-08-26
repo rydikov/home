@@ -51,13 +51,18 @@ whenChanged: [PresenceSensors.hall.presence_status_topic]
 
 ### Сборка и деплой
 
-Для сборки проекта нужно выполнить:
+Основной деплой рассчитан на `wb-rules` 2.47+ с QuickJS и поддержкой TypeScript.
+Сценарии из `src/wb-rules/` отправляются на контроллер как `.ts`, а модули из
+`src/wb-rules-modules/` локально компилируются в современный CommonJS JavaScript,
+который загружается через `require()`.
+
+Для сборки только модулей нужно выполнить:
 
 ```
-pnpm build
+pnpm build:modules
 ```
 
-Для деплоя на контроллер:
+Для сборки модулей и деплоя на контроллер:
 
 ```
 pnpm wb:deploy
@@ -72,4 +77,3 @@ pnpm install
 
 * [Mirta](https://github.com/wb-mirta/core)
 * [Wb-Rules](https://github.com/wirenboard/wb-rules)
-

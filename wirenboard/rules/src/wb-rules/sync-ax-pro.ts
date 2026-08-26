@@ -1,9 +1,11 @@
 // Синхронизация статуса охранной системы с виртуальным устройством ВБ
 // AxPro пишет своё состояние в корневой топик ax-pr
 // При изменении топика, значения из него присваиваются значениям виртуального устройства AxPro
-import { AxProAreas, axProStatesEnum } from '#wbm/global-devices'
-import { AxProArea } from '#wbm/classes/ax-pro'
-import { objectValues } from '#wbm/helpers'
+const { AxProAreas, axProStatesEnum } = require('global-devices') as typeof import('#wbm/global-devices')
+const { AxProArea } = require('classes/ax-pro') as typeof import('#wbm/classes/ax-pro')
+const { objectValues } = require('helpers') as typeof import('#wbm/helpers')
+
+type AxProArea = InstanceType<typeof AxProArea>
 
 const axProStates = {
   [axProStatesEnum.Armed]: { en: 'Armed', ru: 'Под охраной' },

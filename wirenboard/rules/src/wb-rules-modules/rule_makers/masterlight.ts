@@ -1,4 +1,6 @@
-import { RelayLight } from '#wbm/classes/wb'
+const { RelayLight } = require('classes/wb') as typeof import('#wbm/classes/wb')
+
+type RelayLight = InstanceType<typeof RelayLight>
 
 export function makeMasterControlRule(options: {
   ruleName: string

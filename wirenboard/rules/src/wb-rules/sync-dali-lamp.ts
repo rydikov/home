@@ -1,14 +1,12 @@
-import {
-  getDeviceAddress,
+const { getDeviceAddress,
   getGroupAddress,
   getReplyFrame,
   parseColourTemperature,
   parseBrightness,
-  parseStatus
-} from '#wbm/classes/dlc-02'
+  parseStatus } = require('classes/dlc-02') as typeof import('#wbm/classes/dlc-02')
 
-import { dlc02 } from '#wbm/global-devices'
-import { formatTimestampES5 } from '#wbm/helpers'
+const { dlc02 } = require('global-devices') as typeof import('#wbm/global-devices')
+const { formatTimestampES5 } = require('helpers') as typeof import('#wbm/helpers')
 
 defineVirtualDevice('dali_groups', {
   title: 'Dali Groups Tester',

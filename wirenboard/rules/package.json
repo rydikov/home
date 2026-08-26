@@ -3,10 +3,11 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "test": "vitest run --config @mirta/testing/config",
+    "test": "pnpm build:modules && cross-env NODE_PATH=dist/quickjs/wb-rules-modules vitest run --config @mirta/testing/config",
     "build": "cross-env NODE_ENV=production rollup -c node:@mirta/rollup/config",
     "build:dev": "rollup -c node:@mirta/rollup/config",
-    "wb:deploy": "scp -r dist wb:/mnt/data/supervisor && ssh wb 'bash /mnt/data/supervisor/post-deploy.sh'"
+    "build:modules": "rm -rf dist/quickjs/wb-rules-modules && tsc -p tsconfig.modules.json && cp quickjs-modules.package.json dist/quickjs/wb-rules-modules/package.json",
+    "wb:deploy": "pnpm build:modules && mirta deploy --profile quickjs"
   },
   "dependencies": {
     "@mirta/basics": "0.5.2",

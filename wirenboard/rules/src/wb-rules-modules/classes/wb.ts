@@ -1,4 +1,4 @@
-import { ControlBasedClass, DeviceBasedClass } from '#wbm/classes/base'
+const { ControlBasedClass, DeviceBasedClass } = require('classes/base') as typeof import('./base')
 
 // Свет включающийся через реле
 export class RelayLight extends ControlBasedClass {

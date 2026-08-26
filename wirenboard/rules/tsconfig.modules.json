@@ -1,0 +1,34 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "CommonJS",
+    "moduleResolution": "Node",
+    "verbatimModuleSyntax": false,
+    "baseUrl": ".",
+    "paths": {
+      "#wbm/*": [
+        "src/wb-rules-modules/*"
+      ]
+    },
+    "rootDir": "src/wb-rules-modules",
+    "outDir": "dist/quickjs/wb-rules-modules",
+    "noEmit": false,
+    "noEmitOnError": true,
+    "allowJs": true,
+    "types": [
+      "@mirta/globals",
+      "node"
+    ],
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "declaration": false
+  },
+  "include": [
+    "src/wb-rules-modules/**/*.ts",
+    "src/wb-rules-modules/**/*.js"
+  ],
+  "exclude": [
+    "tests/**/*"
+  ]
+}

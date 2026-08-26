@@ -1,8 +1,12 @@
 import { useSimulator } from '@mirta/testing'
+import { createRequire } from 'node:module'
 import { vi } from 'vitest'
 import { WBDALI } from '#wbm/classes/wb-dali'
 
 const simulator = useSimulator()
+const commonJsRequire = createRequire(import.meta.url)
+const globalDevicesModulePath = commonJsRequire.resolve('global-devices')
+const requireCache = commonJsRequire.cache as unknown as Record<string, { exports: unknown } | undefined>
 const actualLevelTopic = 'wb-dali_87_bus_3_group_00/actual_level'
 const group10ActualLevelTopic = 'wb-dali_87_bus_3_group_10/actual_level'
 const group15ActualLevelTopic = 'wb-dali_87_bus_3_group_15/actual_level'
@@ -87,21 +91,21 @@ describe('Dali2GroupsFeedback rule', () => {
     publishMock = vi.fn()
     globalThis.publish = publishMock as unknown as typeof publish
 
-    vi.doMock('#wbm/global-devices', () => {
-      return {
+    requireCache[globalDevicesModulePath] = {
+      exports: {
         WbDali: new WBDALI('wb-dali_87'),
         dali2MW1Buttons: {
           button5: { deviceAddress: 1, intanceNumber: 2 },
           button6: { deviceAddress: 1, intanceNumber: 0 },
         },
-      }
-    })
+      },
+    }
 
     await import('#wb/run-dali2-feedback')
   })
 
   afterEach(() => {
-    vi.doUnmock('#wbm/global-devices')
+    Reflect.deleteProperty(requireCache, globalDevicesModulePath)
   })
 
   it('subscribes to all DALI group actual levels', () => {

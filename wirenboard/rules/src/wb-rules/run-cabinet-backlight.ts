@@ -1,6 +1,6 @@
-import { AstroTimer, PresenceSensors, WbDali, Location } from '#wbm/global-devices'
-import { makeBacklightRule } from '#wbm/rule_makers/backlight'
-import { calculateHCLBrightness } from '#wbm/hcl'
+const { AstroTimer, PresenceSensors, WbDali, Location } = require('global-devices') as typeof import('#wbm/global-devices')
+const { makeBacklightRule } = require('rule_makers/backlight') as typeof import('#wbm/rule_makers/backlight')
+const { calculateHCLBrightness } = require('hcl') as typeof import('#wbm/hcl')
 
 const onFunc = (): void => {
   // RelayLights.Cabinet_01.on()

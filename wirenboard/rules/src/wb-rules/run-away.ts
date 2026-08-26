@@ -1,5 +1,5 @@
-import { PresenceSensors, WallSwitches } from '#wbm/global-devices'
-import { makeAwayRule } from '#wbm/rule_makers/away'
+const { PresenceSensors, WallSwitches } = require('global-devices') as typeof import('#wbm/global-devices')
+const { makeAwayRule } = require('rule_makers/away') as typeof import('#wbm/rule_makers/away')
 
 const homeStatusTopic = 'HomeStatus/away'
 const awayTimeoutMs = 5 * 60 * 1000

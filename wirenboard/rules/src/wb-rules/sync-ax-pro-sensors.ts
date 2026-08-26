@@ -1,8 +1,8 @@
 // Синхронизация температуры датчиков охранной системы с виртуальным устройством ВБ
 // AxPro пишет своё состояние в корневой топик ax-pro-xx где xx это номер датчика
 // При изменении топика, значения из него присваиваются значению виртуального устройства AxPro
-import { AxProSensors } from '#wbm/global-devices'
-import { formatTimestampES5, objectValues } from '#wbm/helpers'
+const { AxProSensors } = require('global-devices') as typeof import('#wbm/global-devices')
+const { formatTimestampES5, objectValues } = require('helpers') as typeof import('#wbm/helpers')
 
 const cells: WbRules.ControlOptionsTree = {
   temperature: {

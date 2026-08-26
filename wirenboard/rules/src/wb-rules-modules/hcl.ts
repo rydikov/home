@@ -1,4 +1,4 @@
-import { SunCalc } from '#wbm/suncalc'
+const { SunCalc } = require('suncalc') as typeof import('#wbm/suncalc')
 
 const MIN_TEMP_K = 2700
 const MAX_TEMP_K = 6500

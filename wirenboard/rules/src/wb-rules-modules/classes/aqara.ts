@@ -1,4 +1,4 @@
-import { DeviceBasedClass } from '#wbm/classes/base'
+const { DeviceBasedClass } = require('classes/base') as typeof import('./base')
 
 // Класс для датчика температуры и влажности Aqara
 export class AqaraSensor extends DeviceBasedClass {

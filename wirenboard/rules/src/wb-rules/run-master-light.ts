@@ -1,5 +1,5 @@
-// import { useMasterControl } from '#wbm/master-control'
-// import { WallSwitches, RelayLights } from '#wbm/global-devices'
+// const { useMasterControl } = require('master-control') as typeof import('#wbm/master-control')
+// const { WallSwitches, RelayLights } = require('global-devices') as typeof import('#wbm/global-devices')
 
 // useMasterControl({
 //   ruleName: 'CABINET_MASTER_CONTROL',

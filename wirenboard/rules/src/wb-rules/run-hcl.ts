@@ -1,5 +1,5 @@
-import { calculateHCLTemperature } from '#wbm/hcl'
-import { Location, WbDali } from '#wbm/global-devices'
+const { calculateHCLTemperature } = require('hcl') as typeof import('#wbm/hcl')
+const { Location, WbDali } = require('global-devices') as typeof import('#wbm/global-devices')
 
 let prevTemp = -1
 const MIN_TEMP_DELTA_K = 20

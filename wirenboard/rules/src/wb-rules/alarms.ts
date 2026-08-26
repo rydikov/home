@@ -10,8 +10,8 @@ const recipients: WbRules.Alarms.TelegramRecipient = {
 }
 
 // Импортируем данные датчиков
-import { AqaraSensors, AxProSensors, MSWs } from '#wbm/global-devices'
-import { objectValues } from '#wbm/helpers'
+const { AqaraSensors, AxProSensors, MSWs } = require('global-devices') as typeof import('#wbm/global-devices')
+const { objectValues } = require('helpers') as typeof import('#wbm/helpers')
 
 // Список алармов Zigbee устройств.
 const zigbeeAlarms: WbRules.Alarms.Config = {
