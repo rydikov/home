@@ -95,8 +95,8 @@ describe('Dali2GroupsFeedback rule', () => {
       exports: {
         WbDali: new WBDALI('wb-dali_87'),
         dali2MW1Buttons: {
-          button5: { deviceAddress: 1, intanceNumber: 2 },
-          button6: { deviceAddress: 1, intanceNumber: 0 },
+          button5: { deviceAddress: 1, instanceNumber: 2 },
+          button6: { deviceAddress: 1, instanceNumber: 0 },
         },
       },
     }

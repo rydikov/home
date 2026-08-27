@@ -2,7 +2,7 @@ const { DeviceBasedClass } = require('classes/base') as typeof import('./base')
 
 export interface Dali2Button {
   deviceAddress: number
-  intanceNumber: number
+  instanceNumber: number
 }
 
 type FeedbackCommand = 'ActivateFeedback' | 'StopFeedback'
@@ -57,7 +57,7 @@ export class WBDALI extends DeviceBasedClass {
   }
 
   private getFeedbackCommand(command: FeedbackCommand, dali2Button: Dali2Button): string {
-    return 'FF24.F32.{}(A{}, I{})'.format(command, dali2Button.deviceAddress, dali2Button.intanceNumber)
+    return 'FF24.F32.{}(A{}, I{})'.format(command, dali2Button.deviceAddress, dali2Button.instanceNumber)
   }
 
   runScene(bus: number, scene: number, address = 'FF'): void {
@@ -245,15 +245,15 @@ export class WBDALI extends DeviceBasedClass {
   // Dali 2
 
   getShortPressInstanceTopic(bus: number, dali2Button: Dali2Button): string {
-    return '{}_bus_{}_dali2_{}/short_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.intanceNumber)
+    return '{}_bus_{}_dali2_{}/short_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.instanceNumber)
   }
 
   getLongPressInstanceTopic(bus: number, dali2Button: Dali2Button): string {
-    return '{}_bus_{}_dali2_{}/long_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.intanceNumber)
+    return '{}_bus_{}_dali2_{}/long_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.instanceNumber)
   }
 
   getDoublePressInstanceTopic(bus: number, dali2Button: Dali2Button): string {
-    return '{}_bus_{}_dali2_{}/double_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.intanceNumber)
+    return '{}_bus_{}_dali2_{}/double_press{}'.format(this.name, bus, dali2Button.deviceAddress, dali2Button.instanceNumber)
   }
 
   activateFeedback(bus: number, dali2Button: Dali2Button): void {

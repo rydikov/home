@@ -4,7 +4,7 @@ import { WBDALI } from '#wbm/classes/wb-dali'
 
 const simulator = useSimulator()
 const wbDali = new WBDALI('wb-dali_87')
-const feedbackButton = { deviceAddress: 1, intanceNumber: 0 }
+const feedbackButton = { deviceAddress: 1, instanceNumber: 0 }
 
 describe('WBDALI', () => {
   beforeEach(() => {
