@@ -98,7 +98,7 @@ export const backlightControls: WbRules.ControlOptionsTree = {
 
 // Датчики температуры/влажности Aqara
 export const AqaraSensors: Record<string, AqaraSensor> = {
-  Cabinet_01: new AqaraSensor('WSDCGQ11LM_AqaraTS01'),
+  Cabinet_01: new AqaraSensor('AqaraTS01'),
   DimasRoom_01: new AqaraSensor('WSDCGQ11LM_0x00158d0008f2ff00'),
 }
 

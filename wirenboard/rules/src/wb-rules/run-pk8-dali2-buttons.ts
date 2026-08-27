@@ -127,3 +127,26 @@ defineRule('Button5LongPress', {
     WbDali.downDevice(3, 2)
   },
 })
+
+// Backlight control
+defineRule('Button8ShortPress', {
+  whenChanged: [WbDali.getShortPressInstanceTopic(3, dali2PK8Buttons.button8)],
+  then: function (newValue) {
+    if (newValue) {
+      dev['Backlights/cabinet'] = false
+      WbDali.stopFeedback(3, dali2PK8Buttons.button7)
+      WbDali.stopFeedback(3, dali2PK8Buttons.button8)
+    }
+  },
+})
+
+defineRule('Button7ShortPress', {
+  whenChanged: [WbDali.getShortPressInstanceTopic(3, dali2PK8Buttons.button7)],
+  then: function (newValue) {
+    if (newValue) {
+      dev['Backlights/cabinet'] = true
+      WbDali.activateFeedback(3, dali2PK8Buttons.button7)
+      WbDali.activateFeedback(3, dali2PK8Buttons.button8)
+    }
+  },
+})
