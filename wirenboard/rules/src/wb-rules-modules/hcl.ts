@@ -3,7 +3,7 @@ const { SunCalc } = require('suncalc') as typeof import('#wbm/suncalc')
 const MIN_TEMP_K = 2700
 const MAX_TEMP_K = 6500
 
-const MIN_BRIGHTNESS = 1
+const MIN_BRIGHTNESS = 5
 const MAX_BRIGHTNESS = 70
 
 const CIVIL_TWILIGHT_ANGLE = -6
