@@ -11,11 +11,11 @@ type FeedbackCommand = 'ActivateFeedback' | 'StopFeedback'
 export class WBDALI extends DeviceBasedClass {
 
   private getGroupControlTopic(bus: number, groupAddress: string, control: string): string {
-    return '{}_bus_{}_group_{}/controls/{}'.format(this.name, bus, groupAddress, control)
+    return '{}_bus_{}_group_{}/{}'.format(this.name, bus, groupAddress, control)
   }
 
   private getDeviceControlTopic(bus: number, deviceAddress: number, control: string): string {
-    return '{}_bus_{}_{}/controls/{}'.format(this.name, bus, deviceAddress, control)
+    return '{}_bus_{}_{}/{}'.format(this.name, bus, deviceAddress, control)
   }
 
   private setGroupControlValue(bus: number, groupAddress: string, control: string, value: number | boolean): void {
