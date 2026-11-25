@@ -1,4 +1,4 @@
-const { WbDali } = require('global-devices') as typeof import('#wbm/global-devices')
+import { WbDali } from '#wbm/global-devices'
 
 const DALI_BUS = 3
 const ALICE_DALI_GROUPS_DEVICE_ID = 'alice_dali_groups'
@@ -56,5 +56,28 @@ defineRule('ALICE_DALI_GROUP_00_COLOUR_TEMPERATURE', {
       '00',
       colourTemperaturePercentToKelvin(percent)
     )
+  },
+})
+
+defineRule('ALICE_DALI_GROUP_00_COLOUR_TEMPERATURE_SYNC', {
+  whenChanged: 'wb-dali_87_bus_3_group_00/current_colour_temperature',
+  then: function (newValue) {
+    const kelvin = Number(newValue)
+
+    if (!isFinite(kelvin) || kelvin <= 0) {
+      return
+    }
+
+    const clampedKelvin = Math.max(MIN_COLOUR_TEMPERATURE_K, Math.min(MAX_COLOUR_TEMPERATURE_K, kelvin))
+    const percent = Math.round(
+      (clampedKelvin - MIN_COLOUR_TEMPERATURE_K)
+      / (MAX_COLOUR_TEMPERATURE_K - MIN_COLOUR_TEMPERATURE_K) * 1000
+    ) / 10
+    const control = getControl(ALICE_DALI_GROUPS_DEVICE_ID + '/' + getGroupColourTemperatureControlId('00'))
+
+    if (control && Number(control.getValue()) !== percent) {
+      // Обновляем показание Алисы без повторной отправки команды в DALI.
+      control.setValue({ value: percent, notify: false })
+    }
   },
 })

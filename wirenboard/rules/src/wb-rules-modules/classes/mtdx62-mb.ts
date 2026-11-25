@@ -1,4 +1,4 @@
-const { DeviceBasedClass } = require('classes/base') as typeof import('./base')
+import { DeviceBasedClass } from '#wbm/classes/base'
 
 // Класс для датчика присутствия mtdx62-mb
 export class MTDX62MB extends DeviceBasedClass {

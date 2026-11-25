@@ -1,9 +1,4 @@
-import { createRequire } from 'node:module'
 import { vi } from 'vitest'
-
-const commonJsRequire = createRequire(import.meta.url)
-const globalDevicesModulePath = commonJsRequire.resolve('global-devices')
-const requireCache = commonJsRequire.cache as unknown as Record<string, { exports: unknown } | undefined>
 
 interface CapturedVirtualDevice {
   deviceId: string
@@ -17,8 +12,6 @@ interface CapturedRule {
 
 let virtualDevices: CapturedVirtualDevice[] = []
 let capturedRules: CapturedRule[] = []
-let setGroupBrightnessMock: ReturnType<typeof vi.fn>
-let setGroupDapcMock: ReturnType<typeof vi.fn>
 let setGroupColourTemperatureMock: ReturnType<typeof vi.fn>
 let groupControlGetValueMock: ReturnType<typeof vi.fn>
 let groupControlSetValueMock: ReturnType<typeof vi.fn>
@@ -53,8 +46,6 @@ describe('Alice DALI groups', () => {
     vi.resetModules()
     installRuntimeCaptures()
 
-    setGroupBrightnessMock = vi.fn()
-    setGroupDapcMock = vi.fn()
     setGroupColourTemperatureMock = vi.fn()
     groupControlGetValueMock = vi.fn()
     groupControlSetValueMock = vi.fn()
@@ -64,45 +55,28 @@ describe('Alice DALI groups', () => {
       setValue: groupControlSetValueMock,
     } as unknown as WbRules.Control))
 
-    requireCache[globalDevicesModulePath] = {
-      exports: {
+    vi.doMock('#wbm/global-devices', () => {
+      return {
         WbDali: {
-          getGroupActualLevelTopic: (_bus: number, groupAddress: string) =>
-            `wb-dali_87_bus_3_group_${groupAddress}/actual_level`,
-          setGroupBrightness: setGroupBrightnessMock,
-          setGroupDapc: setGroupDapcMock,
           setGroupColourTemperature: setGroupColourTemperatureMock,
         },
-      },
-    }
+      }
+    })
 
     await import('#wb/run-alice-dali-groups')
   })
 
   afterEach(() => {
-    Reflect.deleteProperty(requireCache, globalDevicesModulePath)
+    vi.doUnmock('#wbm/global-devices')
   })
 
-  it('creates one virtual device with a toggle for every DALI group on bus 3', () => {
+  it('creates one virtual device with colour temperature for group 00 only', () => {
     expect(virtualDevices).toHaveLength(1)
 
     const virtualDevice = virtualDevices[0]
     expect(virtualDevice.deviceId).toBe('alice_dali_groups')
     expect(virtualDevice.options.title).toBe('DALI: шина 3')
     expect(virtualDevice.options.cells).toEqual({
-      ...Object.fromEntries(
-        Array.from({ length: 16 }, (_, group) => {
-          const groupAddress = String(group).padStart(2, '0')
-          return [
-            `group_${groupAddress}`,
-            {
-              title: `Группа ${groupAddress}`,
-              type: 'switch',
-              value: false,
-            },
-          ]
-        })
-      ),
       group_00_colour_temperature: {
         title: 'Цветовая температура группы 00',
         type: 'range',
@@ -112,24 +86,6 @@ describe('Alice DALI groups', () => {
         value: 0,
       },
     })
-  })
-
-  it('turns group 00 on with brightness 70', () => {
-    const rule = getCapturedRule('ALICE_DALI_GROUP_00_TOGGLE')
-    expect(rule.options.whenChanged).toBe('alice_dali_groups/group_00')
-
-    rule.options.then(true)
-
-    expect(setGroupBrightnessMock).toHaveBeenCalledWith(3, '00', 70)
-    expect(setGroupDapcMock).not.toHaveBeenCalled()
-  })
-
-  it('turns group 00 off with DAPC 0', () => {
-    const rule = getCapturedRule('ALICE_DALI_GROUP_00_TOGGLE')
-    rule.options.then(false)
-
-    expect(setGroupDapcMock).toHaveBeenCalledWith(3, '00', 0)
-    expect(setGroupBrightnessMock).not.toHaveBeenCalled()
   })
 
   it.each([
@@ -145,49 +101,49 @@ describe('Alice DALI groups', () => {
     expect(setGroupColourTemperatureMock).toHaveBeenCalledWith(3, '00', kelvin)
   })
 
-  it('subscribes to actual level of every group on bus 3', () => {
-    const rule = getCapturedRule('ALICE_DALI_GROUPS_ACTUAL_LEVEL_SYNC')
+  it('subscribes only to current colour temperature of group 00 on bus 3', () => {
+    const rule = getCapturedRule('ALICE_DALI_GROUP_00_COLOUR_TEMPERATURE_SYNC')
 
-    expect(rule.options.whenChanged).toEqual(
-      Array.from(
-        { length: 16 },
-        (_, group) => `wb-dali_87_bus_3_group_${String(group).padStart(2, '0')}/actual_level`
-      )
-    )
+    expect(rule.options.whenChanged).toBe('wb-dali_87_bus_3_group_00/current_colour_temperature')
   })
 
-  it('updates the group toggle without triggering command rules', () => {
-    groupControlGetValueMock.mockReturnValue(false)
-    const rule = getCapturedRule('ALICE_DALI_GROUPS_ACTUAL_LEVEL_SYNC')
+  it.each([
+    [2700, 0],
+    [4030, 35],
+    [4000, 34.2],
+    [6500, 100],
+    [2500, 0],
+    [7000, 100],
+    ['4600', 50],
+  ])('syncs %sK as %s%% without sending a DALI command', (kelvin, percent) => {
+    groupControlGetValueMock.mockReturnValue(75)
+    const rule = getCapturedRule('ALICE_DALI_GROUP_00_COLOUR_TEMPERATURE_SYNC')
 
-    rule.options.then(42, 'wb-dali_87_bus_3_group_00', 'actual_level')
+    rule.options.then(kelvin)
 
-    expect(globalThis.getControl).toHaveBeenCalledWith('alice_dali_groups/group_00')
-    expect(groupControlSetValueMock).toHaveBeenCalledWith({
-      value: true,
+    expect(globalThis.getControl).toHaveBeenCalledWith('alice_dali_groups/group_00_colour_temperature')
+    expect(groupControlSetValueMock).toHaveBeenCalledExactlyOnceWith({
+      value: percent,
       notify: false,
     })
+    expect(setGroupColourTemperatureMock).not.toHaveBeenCalled()
   })
 
-  it('marks the group as off when its actual level becomes zero', () => {
-    groupControlGetValueMock.mockReturnValue(true)
-    const rule = getCapturedRule('ALICE_DALI_GROUPS_ACTUAL_LEVEL_SYNC')
+  it.each([35, '35'])('does not rewrite unchanged colour temperature %s', (currentValue) => {
+    groupControlGetValueMock.mockReturnValue(currentValue)
+    const rule = getCapturedRule('ALICE_DALI_GROUP_00_COLOUR_TEMPERATURE_SYNC')
 
-    rule.options.then(0, 'wb-dali_87_bus_3_group_15', 'actual_level')
-
-    expect(globalThis.getControl).toHaveBeenCalledWith('alice_dali_groups/group_15')
-    expect(groupControlSetValueMock).toHaveBeenCalledWith({
-      value: false,
-      notify: false,
-    })
-  })
-
-  it('does not rewrite an unchanged group toggle', () => {
-    groupControlGetValueMock.mockReturnValue(true)
-    const rule = getCapturedRule('ALICE_DALI_GROUPS_ACTUAL_LEVEL_SYNC')
-
-    rule.options.then(42, 'wb-dali_87_bus_3_group_00', 'actual_level')
+    rule.options.then(4030)
 
     expect(groupControlSetValueMock).not.toHaveBeenCalled()
+  })
+
+  it.each([0, -1, '', 'invalid', NaN, Infinity])('ignores invalid device colour temperature %s', (kelvin) => {
+    const rule = getCapturedRule('ALICE_DALI_GROUP_00_COLOUR_TEMPERATURE_SYNC')
+
+    rule.options.then(kelvin)
+
+    expect(groupControlSetValueMock).not.toHaveBeenCalled()
+    expect(setGroupColourTemperatureMock).not.toHaveBeenCalled()
   })
 })

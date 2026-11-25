@@ -1,4 +1,4 @@
-const { DeviceBasedClass } = require('classes/base') as typeof import('./base')
+import { DeviceBasedClass } from '#wbm/classes/base'
 
 export interface Dali2Button {
   deviceAddress: number

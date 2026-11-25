@@ -1,4 +1,4 @@
-const { AstroTimer, backlightControls } = require('global-devices') as typeof import('#wbm/global-devices')
+import { AstroTimer, backlightControls } from '#wbm/global-devices'
 
 // Если подсветки выключали ночью, но их состояние сбрасывается при наступлении дня
 defineRule('ENABLE_ALL_BACKLIGHTS_ON_DAY', {

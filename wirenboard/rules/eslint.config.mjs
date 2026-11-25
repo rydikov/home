@@ -70,16 +70,6 @@ export default defineConfig([
       },
     },
   },
-  // wb-rules uses CommonJS require() for runtime modules, including QuickJS.
-  {
-    files: [
-      'src/wb-rules/**/*.ts',
-      'src/wb-rules-modules/**/*.ts',
-    ],
-    rules: {
-      '@typescript-eslint/no-require-imports': 'off',
-    },
-  },
   // Stylistic Defaults
   {
     files: ['**/*.{js,mjs,cjs,ts,mts,cts}'],

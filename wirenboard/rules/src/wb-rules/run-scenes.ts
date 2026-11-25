@@ -1,4 +1,4 @@
-const { WbDali } = require('global-devices') as typeof import('#wbm/global-devices')
+import { WbDali } from '#wbm/global-devices'
 
 defineVirtualDevice('scenes', {
   title: 'Сценарии',

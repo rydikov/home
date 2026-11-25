@@ -1,4 +1,4 @@
-const { CPUs } = require('global-devices') as typeof import('#wbm/global-devices')
+import { CPUs } from '#wbm/global-devices'
 
 defineRule('CPU_TEMPERATURE_CONTROL', {
   whenChanged: CPUs['CPU'],

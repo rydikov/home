@@ -1,4 +1,4 @@
-const { WbDali, dali2MW1Buttons } = require('global-devices') as typeof import('#wbm/global-devices')
+import { WbDali, dali2MW1Buttons } from '#wbm/global-devices'
 
 // Check
 defineRule('MW1_CheckInstance', {

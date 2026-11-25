@@ -1,4 +1,4 @@
-const { AxProAreas, axProStatesEnum } = require('global-devices') as typeof import('#wbm/global-devices')
+import { AxProAreas, axProStatesEnum } from '#wbm/global-devices'
 
 type AxProState = (typeof axProStatesEnum)[keyof typeof axProStatesEnum]
 
