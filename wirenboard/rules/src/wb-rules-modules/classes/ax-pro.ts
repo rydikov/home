@@ -21,7 +21,7 @@ export class AxProSensor extends DeviceBasedClass {
   }
 
   get status(): string {
-    return String(this.device?.getControl('last_seen_timestamp')?.getValue())
+    return String(this.device?.getControl('status')?.getValue())
   }
 
   get humidityTopic(): string {

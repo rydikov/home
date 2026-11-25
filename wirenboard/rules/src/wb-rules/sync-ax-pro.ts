@@ -2,7 +2,7 @@
 // AxPro пишет своё состояние в корневой топик ax-pr
 // При изменении топика, значения из него присваиваются значениям виртуального устройства AxPro
 import { AxProAreas, axProStatesEnum } from '#wbm/global-devices'
-import { AxProArea } from '#wbm/classes/ax-pro'
+import type { AxProArea } from '#wbm/classes/ax-pro'
 import { objectValues } from '#wbm/helpers'
 
 const axProStates = {

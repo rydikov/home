@@ -6,7 +6,7 @@ import { AstroTimerCls } from '#wbm/classes/other'
 import { AxProSensor, AxProArea } from '#wbm/classes/ax-pro'
 import { DLC02 } from '#wbm/classes/dlc-02'
 import { WBDALI } from '#wbm/classes/wb-dali'
-import { type Dali2Button } from '#wbm/classes/wb-dali'
+import type { Dali2Button } from '#wbm/classes/wb-dali'
 
 export const Location = readConfig('/mnt/data/supervisor/wb-rules-conf/location.conf') as {
   latitude: number
@@ -87,7 +87,7 @@ export const backlightControls: WbRules.ControlOptionsTree = {
 
 // Датчики температуры/влажности Aqara
 export const AqaraSensors: Record<string, AqaraSensor> = {
-  Cabinet_01: new AqaraSensor('WSDCGQ11LM_AqaraTS01'),
+  Cabinet_01: new AqaraSensor('AqaraTS01'),
   DimasRoom_01: new AqaraSensor('WSDCGQ11LM_0x00158d0008f2ff00'),
 }
 
@@ -118,23 +118,23 @@ export const dlc02 = new DLC02('192.168.1.81')
 export const WbDali = new WBDALI('wb-dali_87')
 
 export const dali2MW1Buttons: Record<string, Dali2Button> = {
-  'button1': { deviceAddress: 1, intanceNumber: 5 },
-  'button2': { deviceAddress: 1, intanceNumber: 3 },
-  'button3': { deviceAddress: 1, intanceNumber: 1 },
-  'button4': { deviceAddress: 1, intanceNumber: 4 },
-  'button5': { deviceAddress: 1, intanceNumber: 2 },
-  'button6': { deviceAddress: 1, intanceNumber: 0 },
+  'button1': { deviceAddress: 1, instanceNumber: 5 },
+  'button2': { deviceAddress: 1, instanceNumber: 3 },
+  'button3': { deviceAddress: 1, instanceNumber: 1 },
+  'button4': { deviceAddress: 1, instanceNumber: 4 },
+  'button5': { deviceAddress: 1, instanceNumber: 2 },
+  'button6': { deviceAddress: 1, instanceNumber: 0 },
 }
 
 export const dali2PK8Buttons: Record<string, Dali2Button> = {
-  'button1': { deviceAddress: 2, intanceNumber: 7 },
-  'button2': { deviceAddress: 2, intanceNumber: 6 },
-  'button3': { deviceAddress: 2, intanceNumber: 5 },
-  'button4': { deviceAddress: 2, intanceNumber: 4 },
-  'button5': { deviceAddress: 2, intanceNumber: 3 },
-  'button6': { deviceAddress: 2, intanceNumber: 2 },
-  'button7': { deviceAddress: 2, intanceNumber: 1 },
-  'button8': { deviceAddress: 2, intanceNumber: 0 },
+  'button1': { deviceAddress: 2, instanceNumber: 7 },
+  'button2': { deviceAddress: 2, instanceNumber: 6 },
+  'button3': { deviceAddress: 2, instanceNumber: 5 },
+  'button4': { deviceAddress: 2, instanceNumber: 4 },
+  'button5': { deviceAddress: 2, instanceNumber: 3 },
+  'button6': { deviceAddress: 2, instanceNumber: 2 },
+  'button7': { deviceAddress: 2, instanceNumber: 1 },
+  'button8': { deviceAddress: 2, instanceNumber: 0 },
 }
 
 // Датчики AxPro

@@ -219,7 +219,7 @@ export class DLC02 {
   // Включаем все лампы в группе
   onGroup(bus: string, groupNumber: number): void {
     const msg = bus + getGroupAddress(groupNumber) + '01' + '01' + '00000000'
-    this.publishRpcMessage('group-off', msg, FUNCTION_16, 41001, 4, null, null)
+    this.publishRpcMessage('group-on', msg, FUNCTION_16, 41001, 4, null, null)
   }
 
   // Установка яркости для группы или одиничного устройства

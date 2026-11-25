@@ -6,7 +6,7 @@
     "test": "vitest run --config @mirta/testing/config",
     "build": "cross-env NODE_ENV=production rollup -c node:@mirta/rollup/config",
     "build:dev": "rollup -c node:@mirta/rollup/config",
-    "wb:deploy": "scp -r dist wb:/mnt/data/supervisor && ssh wb 'bash /mnt/data/supervisor/post-deploy.sh'"
+    "wb:deploy": "pnpm build && mirta deploy --profile default"
   },
   "dependencies": {
     "@mirta/basics": "0.5.2",

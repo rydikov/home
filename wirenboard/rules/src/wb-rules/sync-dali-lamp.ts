@@ -1,11 +1,9 @@
-import {
-  getDeviceAddress,
+import { getDeviceAddress,
   getGroupAddress,
   getReplyFrame,
   parseColourTemperature,
   parseBrightness,
-  parseStatus
-} from '#wbm/classes/dlc-02'
+  parseStatus } from '#wbm/classes/dlc-02'
 
 import { dlc02 } from '#wbm/global-devices'
 import { formatTimestampES5 } from '#wbm/helpers'

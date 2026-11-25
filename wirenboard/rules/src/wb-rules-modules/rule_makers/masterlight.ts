@@ -1,4 +1,4 @@
-import { RelayLight } from '#wbm/classes/wb'
+import type { RelayLight } from '#wbm/classes/wb'
 
 export function makeMasterControlRule(options: {
   ruleName: string

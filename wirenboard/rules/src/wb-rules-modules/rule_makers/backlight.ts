@@ -1,4 +1,4 @@
-import { MTDX62MB } from '#wbm/classes/mtdx62-mb'
+import type { MTDX62MB } from '#wbm/classes/mtdx62-mb'
 
 type onFuncType = () => void
 type offFuncType = () => void
